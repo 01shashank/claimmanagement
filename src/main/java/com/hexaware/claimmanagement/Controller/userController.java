@@ -43,6 +43,10 @@ public class userController {
 		userRepo.save(po3);
 	}
 	
+	@RequestMapping("/newTesting")
+	public String newTesting() {
+		return "This is to test the fork function";
+	}
 
 	
 	
