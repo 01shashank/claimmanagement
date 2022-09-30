@@ -11,10 +11,10 @@ public class policy {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	private int policy_Id;
 	
 	@Column(name="name")
-	private String policyName;
+	private String policy_name;
 	
 	@Column(name="coverage")
 	private int policy_coverage;
@@ -22,10 +22,10 @@ public class policy {
 	@Column(name="premium")
 	private int policy_premium;
 	
-	public policy(int id, String policyName, int policy_coverage, int policy_premium) {
+	public policy(int policy_id, String policy_name, int policy_coverage, int policy_premium) {
 		super();
-		Id = id;
-		this.policyName = policyName;
+		policy_Id = policy_id;
+		this.policy_name = policy_name;
 		this.policy_coverage = policy_coverage;
 		this.policy_premium = policy_premium;
 	}
@@ -34,22 +34,21 @@ public class policy {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
 
-	public int getId() {
-		return Id;
+	public int getPolicy_Id() {
+		return policy_Id;
 	}
 
-	public void setId(int id) {
-		Id = id;
+	public void setPolicy_Id(int policy_Id) {
+		this.policy_Id = policy_Id;
 	}
 
-	public String getPolicyName() {
-		return policyName;
+	public String getPolicy_name() {
+		return policy_name;
 	}
 
-	public void setPolicy_name(String policyName) {
-		this.policyName = policyName;
+	public void setPolicy_name(String policy_name) {
+		this.policy_name = policy_name;
 	}
 
 	public int getPolicy_coverage() {
@@ -67,6 +66,9 @@ public class policy {
 	public void setPolicy_premium(int policy_premium) {
 		this.policy_premium = policy_premium;
 	}
+	
+
+	
 
 	
 	
