@@ -1,5 +1,8 @@
 package com.hexaware.claimmanagement.Service;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.claimmanagement.Entity.policy;
@@ -9,8 +12,11 @@ public interface policyService {
 	
 	public policy savePolicy(policy policy);
 	
-	public policy updatePolicyName(String policyName,String changedName);
+	public List<policy> getAllPolicies();
 	
-	public policy deletePolicy(String policyName);
+	public ResponseEntity<policy> updatePolicy(int policy_name,policy policy);
+	
+	public policy deletePolicy(int policy_Id);
+	
 
 }
