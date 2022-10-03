@@ -34,23 +34,36 @@ public class policyController {
 	
 	@GetMapping("/getallpolicies")
 	public ResponseEntity<List<policy>> getAllPolicies(){
-		return polserv.getAllPolicies();
+		List<policy> list1 = polserv.getAllPolicies();
+		if(list1==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		else {
+		return ResponseEntity.of(Optional.of(list1));
+		}
 	}
 	
 	@DeleteMapping("/deletepolicy/{policy_Id}")
-	public policy deletePolicy(@PathVariable int policy_Id) {
-		return polserv.deletePolicy(policy_Id);
-		
+	public ResponseEntity<policy> deletePolicy(@PathVariable int policy_Id) {
+		policy policy1 = polserv.deletePolicy(policy_Id);
+		if(policy1==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		else {
+			return ResponseEntity.of(Optional.of(policy1));
+		}
 	}
 	
 	@PutMapping("/updatepolicy/{policy_Id}")
 	public ResponseEntity<policy> updatePolicy(@PathVariable int policy_Id, @RequestBody policy policy) {
 		policy policy1 = polserv.updatePolicy(policy_Id, policy);
 		if(policy1==null) {
-			ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			
 		}
-		
-			return ResponseEntity.of(Optional.of(policy1));
+		else {
+			return ResponseEntity.of(Optional.of(policy));
+			}
 		
 	}
 

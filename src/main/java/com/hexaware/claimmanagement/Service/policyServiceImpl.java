@@ -23,17 +23,14 @@ public class policyServiceImpl implements policyService{
 	}
 	
 	@Override
-	public ResponseEntity<List<policy>> getAllPolicies(){
+	public List<policy> getAllPolicies(){
 		List<policy> list1 = polRepo.findAll();
 		if(list1.size()<=0) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();	
+			return null;	
 		}
 		else {
-			List<policy> list2 = polRepo.findAll();
-			return ResponseEntity.of(Optional.of(list2));
-			
+			return list1;
 		}
-		
 	}
 	
 
@@ -42,27 +39,47 @@ public class policyServiceImpl implements policyService{
 		
 		try {
 			Optional<policy> policy1 = polRepo.findById(policy_Id);
+			if(policy1==null) {
+				throw new Exception();
+
+			}
+			else {
 			policy policy2 = policy1.get(); 
 			policy2.setPolicy_coverage(policy.getPolicy_coverage());
 			policy2.setPolicy_name(policy.getPolicy_name());
 			policy2.setPolicy_premium(policy.getPolicy_premium());
 			
 			polRepo.save(policy2);
-			
+			return policy2;
+			}
+
 			}
 		catch(Exception e) {
 			e.printStackTrace();
+			return null;
+			
 		}
-		return policy;
 	}
 
 	@Override
 	public policy deletePolicy(int policy_Id) {
-		Optional<policy> po1 = polRepo.findById(policy_Id);
-		policy po2 = po1.get();
+		try {
+			Optional<policy> policy1 = polRepo.findById(policy_Id);
+			if(policy1==null){
+				throw new Exception();
+			}
+			else {
+				policy policy2 = policy1.get();
+				polRepo.delete(policy2);
+				return policy2;
+			}
+		}
 		
-		polRepo.delete(po2);
-		return po2;
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+			
+		}
 	}
 
 

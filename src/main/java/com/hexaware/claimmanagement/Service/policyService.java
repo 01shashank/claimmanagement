@@ -12,9 +12,9 @@ public interface policyService {
 	
 	public policy savePolicy(policy policy);
 	
-	public ResponseEntity<List<policy>> getAllPolicies();
+	public List<policy> getAllPolicies();
 	
-	public policy updatePolicy(int policy_name,policy policy);
+	public policy updatePolicy(int policy_Id,policy policy);
 	
 	public policy deletePolicy(int policy_Id);
 	
