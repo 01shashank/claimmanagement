@@ -4,19 +4,19 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.hexaware.claimmanagement.Entity.policy;
-import com.hexaware.claimmanagement.Entity.user;
+import com.hexaware.claimmanagement.Entity.Policy;
+import com.hexaware.claimmanagement.Entity.User;
 
 @Service
 public interface userService {
 	
-	public user saveUser(user user);
+	public User saveUser(User user);
 	
-	public List<user> getAllUsers();
+	public List<User> getAllUsers();
 	
-	public user updateUser(int user_Id,user user1);
+	public User updateUser(int user_Id,User user1);
 	
-	public user deleteUser(int user_Id);
+	public User deleteUser(int user_Id);
 
 
 }

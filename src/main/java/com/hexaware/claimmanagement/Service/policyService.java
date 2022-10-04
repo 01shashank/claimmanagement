@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.hexaware.claimmanagement.Entity.policy;
+import com.hexaware.claimmanagement.Entity.Policy;
 
 @Service
 public interface policyService {
 	
-	public policy savePolicy(policy policy);
+	public Policy savePolicy(Policy policy);
 	
-	public List<policy> getAllPolicies();
+	public List<Policy> getAllPolicies();
 	
-	public policy updatePolicy(int policy_Id,policy policy);
+	public Policy updatePolicy(int policy_Id,Policy policy);
 	
-	public policy deletePolicy(int policy_Id);
+	public Policy deletePolicy(int policy_Id);
 	
 
 }

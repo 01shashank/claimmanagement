@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hexaware.claimmanagement.Entity.policy;
+import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Repository.policyRepository;
 import com.hexaware.claimmanagement.Service.policyService;
 
@@ -28,13 +28,13 @@ public class policyController {
 	private policyService polserv;
 	
 	@PostMapping("/savepolicy")
-	public policy savePolicy(@RequestBody policy policy) {
+	public Policy savePolicy(@RequestBody Policy policy) {
 		return polserv.savePolicy(policy);
 	}
 	
 	@GetMapping("/getallpolicies")
-	public ResponseEntity<List<policy>> getAllPolicies(){
-		List<policy> list1 = polserv.getAllPolicies();
+	public ResponseEntity<List<Policy>> getAllPolicies(){
+		List<Policy> list1 = polserv.getAllPolicies();
 		if(list1==null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -44,8 +44,8 @@ public class policyController {
 	}
 	
 	@DeleteMapping("/deletepolicy/{policy_Id}")
-	public ResponseEntity<policy> deletePolicy(@PathVariable int policy_Id) {
-		policy policy1 = polserv.deletePolicy(policy_Id);
+	public ResponseEntity<Policy> deletePolicy(@PathVariable int policy_Id) {
+		Policy policy1 = polserv.deletePolicy(policy_Id);
 		if(policy1==null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -55,8 +55,8 @@ public class policyController {
 	}
 	
 	@PutMapping("/updatepolicy/{policy_Id}")
-	public ResponseEntity<policy> updatePolicy(@PathVariable int policy_Id, @RequestBody policy policy) {
-		policy policy1 = polserv.updatePolicy(policy_Id, policy);
+	public ResponseEntity<Policy> updatePolicy(@PathVariable int policy_Id, @RequestBody Policy policy) {
+		Policy policy1 = polserv.updatePolicy(policy_Id, policy);
 		if(policy1==null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			

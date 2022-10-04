@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class policy {
+public class Policy {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class policy {
 	@Column(name="premium")
 	private int policy_premium;
 	
-	public policy(int policy_id, String policy_name, int policy_coverage, int policy_premium) {
+	public Policy(int policy_id, String policy_name, int policy_coverage, int policy_premium) {
 		super();
 		policy_Id = policy_id;
 		this.policy_name = policy_name;
@@ -30,7 +30,7 @@ public class policy {
 		this.policy_premium = policy_premium;
 	}
 
-	public policy() {
+	public Policy() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

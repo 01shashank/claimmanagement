@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.FetchMode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class user {
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,18 +42,18 @@ public class user {
 	@Column(name="address")
 	private String user_address;
 	
-	@ManyToMany @Fetch(FetchMode.JOIN)
-	//@Cascade({CascadeType.DETACH})
+	@ManyToMany(fetch=FetchType.EAGER)
 	@Column(name="policies_enrolled")
-	private List<policy> user_policies;
-
-	public user() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public user(int user_Id, String user_first_name, String usre_last_name, long user_phone, int user_age,
-			String user_address, List<policy> user_policies) {
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Policy> user_policies;
+	
+	@ManyToMany(fetch=FetchType.EAGER)
+	@Column(name="claims_applied")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Claim> user_claims;
+	
+	public User(int user_Id, String user_first_name, String usre_last_name, long user_phone, int user_age,
+			String user_address, List<Policy> user_policies, List<Claim> user_claims) {
 		super();
 		this.user_Id = user_Id;
 		this.user_first_name = user_first_name;
@@ -61,7 +62,14 @@ public class user {
 		this.user_age = user_age;
 		this.user_address = user_address;
 		this.user_policies = user_policies;
+		this.user_claims = user_claims;
 	}
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	
 
 	public int getUser_Id() {
@@ -100,7 +108,6 @@ public class user {
 		return user_age;
 	}
 
-	
 	public void setUser_age(int user_age) {
 		this.user_age = user_age;
 	}
@@ -113,12 +120,21 @@ public class user {
 		this.user_address = user_address;
 	}
 
-	public List<policy> getUser_policies() {
+	public List<Policy> getUser_policies() {
 		return user_policies;
 	}
 
-	public void setUser_policies(List<policy> user_policies) {
+	public void setUser_policies(List<Policy> user_policies) {
 		this.user_policies = user_policies;
 	}
 
+	public List<Claim> getUser_claims() {
+		return user_claims;
+	}
+
+	public void setUser_claims(List<Claim> user_claims) {
+		this.user_claims = user_claims;
+	}
+
+	
 }
