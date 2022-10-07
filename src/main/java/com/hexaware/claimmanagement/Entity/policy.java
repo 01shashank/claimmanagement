@@ -1,12 +1,30 @@
 package com.hexaware.claimmanagement.Entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(
+		   generator = ObjectIdGenerators.PropertyGenerator.class,
+		   property = "policy_Id")
 public class Policy {
 	
 	@Id
@@ -22,18 +40,26 @@ public class Policy {
 	@Column(name="premium")
 	private int policy_premium;
 	
-	public Policy(int policy_id, String policy_name, int policy_coverage, int policy_premium) {
+	@ManyToMany
+	@JsonIgnore
+	private List<User> users;
+	
+	public Policy(int policy_Id, String policy_name, int policy_coverage, int policy_premium, 
+			List<User> users) {
 		super();
-		policy_Id = policy_id;
+		this.policy_Id = policy_Id;
 		this.policy_name = policy_name;
 		this.policy_coverage = policy_coverage;
 		this.policy_premium = policy_premium;
+		this.users = users;
 	}
 
 	public Policy() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 
 	public int getPolicy_Id() {
 		return policy_Id;
@@ -66,13 +92,16 @@ public class Policy {
 	public void setPolicy_premium(int policy_premium) {
 		this.policy_premium = policy_premium;
 	}
-	
 
 	
 
-	
-	
-	
-	
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
 
 }

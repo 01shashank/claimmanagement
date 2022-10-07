@@ -2,8 +2,10 @@ package com.hexaware.claimmanagement.Entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Insured {
@@ -30,7 +35,11 @@ public class Insured {
 	
 	@Column(name="relationship")
 	private String insured_relationship;
-	
+//	
+//	@OneToOne(mappedBy="insured",cascade = CascadeType.ALL)
+//	@JsonBackReference(value="claim_insured")
+//	private Claim claim;
+//	
 	public Insured(int insured_Id, String insured_name, String insured_phone, int insured_age,
 			String insured_relationship) {
 		super();
@@ -45,9 +54,6 @@ public class Insured {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
 
 	public int getInsured_Id() {
 		return insured_Id;
@@ -91,4 +97,6 @@ public class Insured {
 
 
 
+
+	
 }

@@ -2,8 +2,10 @@ package com.hexaware.claimmanagement.Entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,12 +14,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Hospitalization {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int hospital_Id;
+	
 	
 	@Column(name="doctor")
 	private String hospital_doctor;
@@ -30,8 +36,8 @@ public class Hospitalization {
 	
 	@Column(name="reason")
 	private String hospital_reason;
-	
 
+	
 	public Hospitalization(int hospital_Id, String hospital_doctor, int hospital_medical_expenses,
 			int hospital_non_medical_expenses, String hospital_reason) {
 		super();
@@ -41,6 +47,8 @@ public class Hospitalization {
 		this.hospital_non_medical_expenses = hospital_non_medical_expenses;
 		this.hospital_reason = hospital_reason;
 	}
+
+
 
 	public Hospitalization() {
 		super();
@@ -55,6 +63,7 @@ public class Hospitalization {
 	public void setHospital_Id(int hospital_Id) {
 		this.hospital_Id = hospital_Id;
 	}
+
 
 	public String getHospital_doctor() {
 		return hospital_doctor;
@@ -88,7 +97,7 @@ public class Hospitalization {
 		this.hospital_reason = hospital_reason;
 	}
 
-	
 
+	
 
 }

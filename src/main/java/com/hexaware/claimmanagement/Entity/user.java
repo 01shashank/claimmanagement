@@ -1,30 +1,41 @@
 package com.hexaware.claimmanagement.Entity;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(
+		   generator = ObjectIdGenerators.PropertyGenerator.class,
+		   property = "user_Id")
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
+	@Column(name="user_Id")
 	private int user_Id;
 	
 	@Column(name="first_name")
@@ -42,14 +53,12 @@ public class User {
 	@Column(name="address")
 	private String user_address;
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@Column(name="policies_enrolled")
-	@Fetch(value = FetchMode.SUBSELECT)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Policy> user_policies;
 	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@Column(name="claims_applied")
-	@Fetch(value = FetchMode.SUBSELECT)
+	@OneToMany(mappedBy="user")
+	@JsonManagedReference(value="user_claims")
 	private List<Claim> user_claims;
 	
 	public User(int user_Id, String user_first_name, String usre_last_name, long user_phone, int user_age,
