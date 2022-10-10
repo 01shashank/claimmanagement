@@ -40,18 +40,14 @@ public class Policy {
 	@Column(name="premium")
 	private int policy_premium;
 	
-	@ManyToMany
-	@JsonIgnore
-	private List<User> users;
 	
-	public Policy(int policy_Id, String policy_name, int policy_coverage, int policy_premium, 
-			List<User> users) {
+	
+	public Policy(int policy_Id, String policy_name, int policy_coverage, int policy_premium) {
 		super();
 		this.policy_Id = policy_Id;
 		this.policy_name = policy_name;
 		this.policy_coverage = policy_coverage;
 		this.policy_premium = policy_premium;
-		this.users = users;
 	}
 
 	public Policy() {
@@ -60,6 +56,7 @@ public class Policy {
 	}
 	
 	
+
 
 	public int getPolicy_Id() {
 		return policy_Id;
@@ -93,15 +90,8 @@ public class Policy {
 		this.policy_premium = policy_premium;
 	}
 
-	
 
-	public List<User> getUsers() {
-		return users;
-	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
 
 
 }

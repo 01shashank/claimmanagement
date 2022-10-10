@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -27,13 +28,14 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(
 		   generator = ObjectIdGenerators.PropertyGenerator.class,
 		   property = "claim_id")
+@Transactional
 public class Claim {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int claim_id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference(value="user_claims")
 	@JoinColumn(name = "user_Id")
 	private User user;
@@ -41,7 +43,7 @@ public class Claim {
 	@Column(name="status")
 	private Claim_status claim_status;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private Policy policy;
 	
 	@OneToOne(cascade = CascadeType.ALL)

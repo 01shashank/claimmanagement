@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.hexaware.claimmanagement.Entity.Claim;
+import com.hexaware.claimmanagement.Entity.Claim_status;
 import com.hexaware.claimmanagement.Entity.Hospitalization;
 import com.hexaware.claimmanagement.Entity.Insured;
 import com.hexaware.claimmanagement.Entity.Policy;
@@ -58,8 +59,27 @@ public class claimServiceImpl implements claimService{
 				throw new Exception();
 			}
 			else {
+				System.out.println("In the else part");
 				Claim claim2 = claim1.get();
+//				Hospitalization hospital1 = claim2.getHospitalization();
+//				int hospital_id = hospital1.getHospital_Id();
+//				//hospRepo.delete(hospital1);
+////				
+//				Insured insured1 = claim2.getInsured();
+//				int insured_Id = insured1.getInsured_Id();
+////				insRepo.delete(insured1);
+////				System.out.println("Till the end  part");
+//				
+//				//claimRepo.removeHospInsPol(claim_id);
+//
+//				insRepo.deleteById(insured_Id);
+//				hospRepo.deleteById(hospital_id);
+//				claimRepo.deleteById(claim_id);
+				
+				
 				claimRepo.delete(claim2);
+				
+				
 				return claim2;
 			}
 		}
@@ -70,5 +90,59 @@ public class claimServiceImpl implements claimService{
 			
 		}
 	}
+
+	@Override
+	public Claim updateClaim(int claim_id, Claim claim) {
+		try {
+			Optional<Claim> claim1 = claimRepo.findById(claim_id);
+			if(claim1==null) {
+				throw new Exception();
+
+			}
+			else {
+			Claim claim2 = claim1.get(); 
+			claim2.setClaim_id(claim.getClaim_id());
+			claim2.setHospitalization(claim.getHospitalization());
+			claim2.setInsured(claim.getInsured());
+			
+			claimRepo.save(claim2);
+			return claim2;
+			}
+
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+			
+		}
+	}
+	
+	@Override
+	public Claim updateStatus(Claim_status status,int claim_id) {
+		
+		
+		try {
+			Optional<Claim> claim1 = claimRepo.findById(claim_id);
+			if(claim1==null) {
+				throw new Exception();
+
+			}
+			else {
+			Claim claim2 = claim1.get(); 
+			claim2.setClaim_status(status);
+			
+			claimRepo.save(claim2);
+			return claim2;
+			}
+
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+			
+		}
+	}
+	
+
 
 }

@@ -35,11 +35,7 @@ public class Insured {
 	
 	@Column(name="relationship")
 	private String insured_relationship;
-//	
-//	@OneToOne(mappedBy="insured",cascade = CascadeType.ALL)
-//	@JsonBackReference(value="claim_insured")
-//	private Claim claim;
-//	
+
 	public Insured(int insured_Id, String insured_name, String insured_phone, int insured_age,
 			String insured_relationship) {
 		super();

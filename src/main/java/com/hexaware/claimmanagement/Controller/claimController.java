@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.claimmanagement.Entity.Claim;
+import com.hexaware.claimmanagement.Entity.Claim_status;
 import com.hexaware.claimmanagement.Entity.User;
 import com.hexaware.claimmanagement.Service.claimService;
 
@@ -43,5 +45,43 @@ public class claimController {
 			return ResponseEntity.of(Optional.of(claim1));
 		}
 	}
+	
+	@DeleteMapping("/deletetes/{claim_id}")
+	public ResponseEntity<Claim> deleteTest(@PathVariable int claim_id) {
+		Claim claim1 = claimServ.deleteClaim(claim_id);
+		if(claim1==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		else {
+			return ResponseEntity.of(Optional.of(claim1));
+		}
+	}
+	
+	@PutMapping("/updateclaim/{claim_id}")
+	public ResponseEntity<Claim> updateClaim(@PathVariable int claim_id, @RequestBody Claim claim) {
+		Claim claim1 = claimServ.updateClaim(claim_id, claim);
+		if(claim1==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			
+		}
+		else {
+			return ResponseEntity.of(Optional.of(claim1));
+			}
+		
+	}
+	
+	@PutMapping("/updatestatus/{claim_id}")
+	public ResponseEntity<Claim> updateStatus(@RequestBody Claim_status status,@PathVariable int claim_id) {
+		Claim claim1 = claimServ.updateStatus(  status,claim_id);
+		if(claim1==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			
+		}
+		else {
+			return ResponseEntity.of(Optional.of(claim1));
+			}
+		
+	}
+	
 
 }

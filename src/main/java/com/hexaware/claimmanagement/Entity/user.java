@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(
 		   generator = ObjectIdGenerators.PropertyGenerator.class,
 		   property = "user_Id")
+@Transactional
 public class User {
 	
 	@Id
@@ -53,11 +55,11 @@ public class User {
 	@Column(name="address")
 	private String user_address;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany
 	@JsonIgnore
 	private List<Policy> user_policies;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user",fetch = FetchType.EAGER)
 	@JsonManagedReference(value="user_claims")
 	private List<Claim> user_claims;
 	

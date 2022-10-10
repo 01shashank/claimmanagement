@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hexaware.claimmanagement.Entity.Claim;
 import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
+import com.hexaware.claimmanagement.Repository.claimRepository;
 import com.hexaware.claimmanagement.Repository.userRepository;
 
 @Component
@@ -15,6 +17,9 @@ public class userServiceImpl implements userService{
 	
 	@Autowired
 	private userRepository userRepo;
+	
+	@Autowired
+	private claimRepository claimRepo;
 
 	@Override
 	public User saveUser(User user1) {
@@ -50,8 +55,10 @@ public class userServiceImpl implements userService{
 			user3.setUser_age(user1.getUser_age());
 			user3.setUser_address(user1.getUser_address());
 			user3.setUser_policies(user1.getUser_policies());
+			user3.setUser_claims(user1.getUser_claims());
 			
 			userRepo.save(user3);
+			
 			return user3;
 			}
 		}
@@ -71,6 +78,13 @@ public class userServiceImpl implements userService{
 			}
 			else {
 				User user2 = user1.get();
+				
+				List<Claim> claim1 =user2.getUser_claims();
+				claim1.forEach(claim->{
+					claimRepo.delete(claim);
+				});
+				
+				
 				userRepo.delete(user2);
 				return user2;
 			}
