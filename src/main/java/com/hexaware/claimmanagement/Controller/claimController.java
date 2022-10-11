@@ -45,17 +45,7 @@ public class claimController {
 			return ResponseEntity.of(Optional.of(claim1));
 		}
 	}
-	
-	@DeleteMapping("/deletetes/{claim_id}")
-	public ResponseEntity<Claim> deleteTest(@PathVariable int claim_id) {
-		Claim claim1 = claimServ.deleteClaim(claim_id);
-		if(claim1==null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		else {
-			return ResponseEntity.of(Optional.of(claim1));
-		}
-	}
+
 	
 	@PutMapping("/updateclaim/{claim_id}")
 	public ResponseEntity<Claim> updateClaim(@PathVariable int claim_id, @RequestBody Claim claim) {

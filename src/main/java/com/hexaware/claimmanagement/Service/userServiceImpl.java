@@ -23,6 +23,8 @@ public class userServiceImpl implements userService{
 
 	@Override
 	public User saveUser(User user1) {
+		List<Claim> list1= user1.getUser_claims();
+		
 		return userRepo.save(user1);
 	}
 
@@ -47,13 +49,9 @@ public class userServiceImpl implements userService{
 			}
 			else {
 			User user3 = user2.get(); 
-			
-			user3.setUser_Id(user1.getUser_Id());
+		
 			user3.setUser_first_name(user1.getUser_first_name());
 			user3.setUsre_last_name(user1.getUsre_last_name());
-			user3.setUser_phone(user1.getUser_phone());
-			user3.setUser_age(user1.getUser_age());
-			user3.setUser_address(user1.getUser_address());
 			user3.setUser_policies(user1.getUser_policies());
 			user3.setUser_claims(user1.getUser_claims());
 			

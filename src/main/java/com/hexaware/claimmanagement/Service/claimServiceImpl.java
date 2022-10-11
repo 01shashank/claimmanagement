@@ -42,7 +42,7 @@ public class claimServiceImpl implements claimService{
 		User user1 = user.get();
 		Claim claim1 = claim;
 		claim1.setUser(user1);
-		
+		claim1.setClaim_status(Claim_status.UNDER_REVIEW);
 		return claimRepo.save(claim1);
 	}
 
@@ -60,26 +60,9 @@ public class claimServiceImpl implements claimService{
 			}
 			else {
 				System.out.println("In the else part");
-				Claim claim2 = claim1.get();
-//				Hospitalization hospital1 = claim2.getHospitalization();
-//				int hospital_id = hospital1.getHospital_Id();
-//				//hospRepo.delete(hospital1);
-////				
-//				Insured insured1 = claim2.getInsured();
-//				int insured_Id = insured1.getInsured_Id();
-////				insRepo.delete(insured1);
-////				System.out.println("Till the end  part");
-//				
-//				//claimRepo.removeHospInsPol(claim_id);
-//
-//				insRepo.deleteById(insured_Id);
-//				hospRepo.deleteById(hospital_id);
-//				claimRepo.deleteById(claim_id);
-				
+				Claim claim2 = claim1.get();	
 				
 				claimRepo.delete(claim2);
-				
-				
 				return claim2;
 			}
 		}
@@ -100,8 +83,7 @@ public class claimServiceImpl implements claimService{
 
 			}
 			else {
-			Claim claim2 = claim1.get(); 
-			claim2.setClaim_id(claim.getClaim_id());
+			Claim claim2 = claim1.get();
 			claim2.setHospitalization(claim.getHospitalization());
 			claim2.setInsured(claim.getInsured());
 			
