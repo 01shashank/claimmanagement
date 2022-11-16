@@ -9,9 +9,12 @@ import org.springframework.stereotype.Repository;
 import com.hexaware.claimmanagement.Entity.Policy;
 
 @Repository
-public interface policyRepository extends JpaRepository<Policy,Integer>{
+public interface PolicyRepository extends JpaRepository<Policy,Integer>{
 		
 	@Query(value="select id from Policy where name=?1")
-	public int getIdFromName(String policy_name);
+	public int getIdFromName(String policyName);
+	
+	@Query("select p from Policy p where p.policyName=?1")
+	public Policy findByPolicyName(String policyName);
 
 }

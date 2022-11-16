@@ -9,13 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.hexaware.claimmanagement.Entity.Policy;
-import com.hexaware.claimmanagement.Repository.policyRepository;
+import com.hexaware.claimmanagement.Repository.PolicyRepository;
 
 @Component
-public class policyServiceImpl implements policyService{
+public class PolicyServiceImpl implements PolicyService{
 	
 	@Autowired
-	private policyRepository polRepo;
+	private PolicyRepository polRepo;
 	
 	@Override
 	public Policy savePolicy(Policy policy) {
@@ -34,32 +34,7 @@ public class policyServiceImpl implements policyService{
 	}
 	
 
-	@Override
-	public Policy updatePolicy(int policy_Id, Policy policy) {
-		
-		try {
-			Optional<Policy> policy1 = polRepo.findById(policy_Id);
-			if(policy1==null) {
-				throw new Exception();
-
-			}
-			else {
-			Policy policy2 = policy1.get(); 
-			policy2.setPolicy_coverage(policy.getPolicy_coverage());
-			policy2.setPolicy_name(policy.getPolicy_name());
-			policy2.setPolicy_premium(policy.getPolicy_premium());
-			
-			polRepo.save(policy2);
-			return policy2;
-			}
-
-			}
-		catch(Exception e) {
-			e.printStackTrace();
-			return null;
-			
-		}
-	}
+	
 
 	@Override
 	public Policy deletePolicy(int policy_Id) {
@@ -80,6 +55,13 @@ public class policyServiceImpl implements policyService{
 			return null;
 			
 		}
+	}
+
+	@Override
+	public Policy getPolicyById(int policy_id) {
+		Optional<Policy> policy = polRepo.findById(policy_id);
+		Policy policy1 = policy.get();
+		return policy1;
 	}
 
 

@@ -24,29 +24,16 @@ public class Hospitalization {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int hospital_Id;
 	
+	@OneToOne(mappedBy="hospitalization",fetch=FetchType.LAZY)
+	private Claim claim;
 	
-	@Column(name="doctor")
 	private String hospital_doctor;
 	
-	@Column(name="med_exp")
 	private int hospital_medical_expenses;
 	
-	@Column(name="non_med_exp")
 	private int hospital_non_medical_expenses;
 	
-	@Column(name="reason")
 	private String hospital_reason;
-
-	
-	public Hospitalization(int hospital_Id, String hospital_doctor, int hospital_medical_expenses,
-			int hospital_non_medical_expenses, String hospital_reason) {
-		super();
-		this.hospital_Id = hospital_Id;
-		this.hospital_doctor = hospital_doctor;
-		this.hospital_medical_expenses = hospital_medical_expenses;
-		this.hospital_non_medical_expenses = hospital_non_medical_expenses;
-		this.hospital_reason = hospital_reason;
-	}
 
 
 
@@ -54,50 +41,94 @@ public class Hospitalization {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+
+
+	public Hospitalization(Claim claim, String hospital_doctor, int hospital_medical_expenses,
+			int hospital_non_medical_expenses, String hospital_reason) {
+		super();
+		this.claim = claim;
+		this.hospital_doctor = hospital_doctor;
+		this.hospital_medical_expenses = hospital_medical_expenses;
+		this.hospital_non_medical_expenses = hospital_non_medical_expenses;
+		this.hospital_reason = hospital_reason;
+	}
 	
+	
+
 
 	public int getHospital_Id() {
 		return hospital_Id;
 	}
+
+
 
 	public void setHospital_Id(int hospital_Id) {
 		this.hospital_Id = hospital_Id;
 	}
 
 
+
+	public Claim getClaim() {
+		return claim;
+	}
+
+
+
+	public void setClaim(Claim claim) {
+		this.claim = claim;
+	}
+
+
+
 	public String getHospital_doctor() {
 		return hospital_doctor;
 	}
+
+
 
 	public void setHospital_doctor(String hospital_doctor) {
 		this.hospital_doctor = hospital_doctor;
 	}
 
+
+
 	public int getHospital_medical_expenses() {
 		return hospital_medical_expenses;
 	}
+
+
 
 	public void setHospital_medical_expenses(int hospital_medical_expenses) {
 		this.hospital_medical_expenses = hospital_medical_expenses;
 	}
 
+
+
 	public int getHospital_non_medical_expenses() {
 		return hospital_non_medical_expenses;
 	}
+
+
 
 	public void setHospital_non_medical_expenses(int hospital_non_medical_expenses) {
 		this.hospital_non_medical_expenses = hospital_non_medical_expenses;
 	}
 
+
+
 	public String getHospital_reason() {
 		return hospital_reason;
 	}
 
+
+
 	public void setHospital_reason(String hospital_reason) {
 		this.hospital_reason = hospital_reason;
 	}
-
-
 	
+	
+	
+
 
 }

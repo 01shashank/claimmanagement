@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
-import com.hexaware.claimmanagement.Repository.userRepository;
-import com.hexaware.claimmanagement.Service.userService;
+import com.hexaware.claimmanagement.Repository.UserRepository;
+import com.hexaware.claimmanagement.Service.UserService;
 
 @RestController
-public class userController {
+@CrossOrigin(origins="http://localhost:3000")
+public class UserController {
 	
-	@Autowired userService userServ;
+	@Autowired UserService userServ;
 	
 	@PostMapping("/saveuser")
 	public User saveUser(@RequestBody User user1){
@@ -41,6 +43,16 @@ public class userController {
 		}
 	}
 	
+	@GetMapping("getuserbyid/{user_Id}")
+	public User getUserbyId(@PathVariable int user_Id) {
+		return userServ.getUserbyId(user_Id);
+	}
+	
+	@GetMapping("getuserbyemail/{userEmail}")
+	public User getUserByEmail(@PathVariable String userEmail) {
+		return userServ.getUserbyEmail(userEmail);
+	}
+	
 	@DeleteMapping("/deleteuser/{user_Id}")
 	public ResponseEntity<User> deleteUser(@PathVariable int user_Id) {
 		User user1 = userServ.deleteUser(user_Id);
@@ -50,19 +62,6 @@ public class userController {
 		else {
 			return ResponseEntity.of(Optional.of(user1));
 		}
-	}
-	
-	@PutMapping("/updateuser/{user_Id}")
-	public ResponseEntity<User> updatePolicy(@PathVariable int user_Id, @RequestBody User user) {
-		User user1 = userServ.updateUser(user_Id, user);
-		if(user1==null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-			
-		}
-		else {
-			return ResponseEntity.of(Optional.of(user1));
-			}
-		
 	}
 	
 	

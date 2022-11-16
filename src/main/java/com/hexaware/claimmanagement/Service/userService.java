@@ -8,15 +8,17 @@ import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
 
 @Service
-public interface userService {
+public interface UserService {
 	
 	public User saveUser(User user);
 	
 	public List<User> getAllUsers();
 	
-	public User updateUser(int user_Id,User user1);
-	
 	public User deleteUser(int user_Id);
+	
+	public User getUserbyId(int user_Id);
+	
+	public User getUserbyEmail(String userEmail);
 
 
 }

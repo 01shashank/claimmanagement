@@ -1,6 +1,7 @@
 package com.hexaware.claimmanagement.Entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -19,6 +21,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -44,32 +47,32 @@ public class Claim {
 	
 	@Column(name="status")
 	private Claim_status claim_status;
+
 	
-	@OneToOne
-	private Policy policy;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	private Insured insured;
-	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch= FetchType.EAGER)
 	private Hospitalization hospitalization;
 	
-	public Claim(int claim_id, User user, Claim_status claim_status, Policy policy, Insured insured,
-			Hospitalization hospitalization) {
-		super();
-		this.claim_id = claim_id;
-		this.user = user;
-		this.claim_status = claim_status;
-		this.policy = policy;
-		this.insured = insured;
-		this.hospitalization = hospitalization;
-	}
-
+	@OneToMany( cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+	private List<Document> doc;
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+	private Policy policy;
+	
 	public Claim() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public Claim( User user, Claim_status claim_status,
+			Hospitalization hospitalization, List<Document> doc, Policy policy) {
+		super();
+		this.user = user;
+		this.claim_status = claim_status;
+		this.hospitalization = hospitalization;
+		this.doc = doc;
+		this.policy=policy;
+	}
+
 
 	public int getClaim_id() {
 		return claim_id;
@@ -95,22 +98,6 @@ public class Claim {
 		this.claim_status = claim_status;
 	}
 
-	public Policy getPolicy() {
-		return policy;
-	}
-
-	public void setPolicy(Policy policy) {
-		this.policy = policy;
-	}
-
-	public Insured getInsured() {
-		return insured;
-	}
-
-	public void setInsured(Insured insured) {
-		this.insured = insured;
-	}
-
 	public Hospitalization getHospitalization() {
 		return hospitalization;
 	}
@@ -119,6 +106,22 @@ public class Claim {
 		this.hospitalization = hospitalization;
 	}
 
+	public List<Document> getDoc() {
+		return doc;
+	}
+
+	public void setDoc(List<Document> doc) {
+		this.doc = doc;
+	}
+
+	public Policy getPolicy() {
+		return policy;
+	}
+
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
+	}
+	
 	
 	
 }

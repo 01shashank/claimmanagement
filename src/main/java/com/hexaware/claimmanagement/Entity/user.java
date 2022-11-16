@@ -47,70 +47,94 @@ public class User implements UserDetails{
 	@Column(name="user_Id")
 	private int user_Id;
 	
-	@Column(name="email")
-	private String userEmail;
+	@Column(name="email", unique=true)
+	private String user_Email;
 	
-	@Column(name="password")
+	@Column(name="password",unique=true)
 	private String user_password;
 	
 	@Column(name="first_name")
 	private String user_first_name;
 	
 	@Column(name="last_name")
-	private String usre_last_name;
+	private String user_last_name;
 	
-	@ManyToMany
-	@JsonIgnore
+	
+	@OneToMany(mappedBy="user",cascade = CascadeType.ALL)
 	private List<Policy> user_policies;
 	
-	@OneToMany(mappedBy="user",fetch = FetchType.EAGER)
+	//FetchType is lazy as we need not to load the data at time of entering a user.
+	//FetchType needs to be set to Eager when we need to load the data at time of entering a user.
+	//JsonManagedReference is a forward reference used for serialization and JsonBackReference is omitted during serialization.
+	@OneToMany(mappedBy="user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JsonManagedReference(value="user_claims")
 	private List<Claim> user_claims;
 	
+	//ManyToMany Relationship needs to be written with JoinTable annotation
 	@ManyToMany(fetch= FetchType.EAGER,cascade = CascadeType.PERSIST)
+	@JoinTable(
+			  name = "user_roles", 
+			  joinColumns = @JoinColumn(name = "user_Id"), 
+			  inverseJoinColumns = @JoinColumn(name = "role_Id"))
 	@JsonIgnore
 	private Set<Role> user_roles = new HashSet<>();
 	
-	public User(int user_Id, String userEmail, String user_password, String user_first_name,
-			String usre_last_name, List<Policy> user_policies, List<Claim> user_claims, Set<Role> user_roles) {
+	
+	
+	public User() {
 		super();
-		this.user_Id = user_Id;
-		this.userEmail = userEmail;
+	}
+	
+
+	public User( String user_Email, String user_password, String user_first_name, String user_last_name,
+			List<Policy> user_policies, List<Claim> user_claims, Set<Role> user_roles) {
+		super();
+		this.user_Email = user_Email;
 		this.user_password = user_password;
 		this.user_first_name = user_first_name;
-		this.usre_last_name = usre_last_name;
+		this.user_last_name = user_last_name;
 		this.user_policies = user_policies;
 		this.user_claims = user_claims;
 		this.user_roles = user_roles;
 	}
+	
+	
 
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
 	public int getUser_Id() {
 		return user_Id;
 	}
+
+
+
+
 
 	public void setUser_Id(int user_Id) {
 		this.user_Id = user_Id;
 	}
 
-	public String getUserEmail() {
-		return userEmail;
+
+
+
+
+	public String getUser_Email() {
+		return user_Email;
 	}
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public void setUserEmail(String user_Email) {
+		this.user_Email = user_Email;
 	}
+
 
 	public String getUser_password() {
 		return user_password;
 	}
 
+
 	public void setUser_password(String user_password) {
 		this.user_password = user_password;
 	}
+
 
 	public String getUser_first_name() {
 		return user_first_name;
@@ -120,13 +144,15 @@ public class User implements UserDetails{
 		this.user_first_name = user_first_name;
 	}
 
-	public String getUsre_last_name() {
-		return usre_last_name;
+	public String getUser_last_name() {
+		return user_last_name;
 	}
 
-	public void setUsre_last_name(String usre_last_name) {
-		this.usre_last_name = usre_last_name;
+
+	public void setUser_last_name(String user_last_name) {
+		this.user_last_name = user_last_name;
 	}
+
 
 	public List<Policy> getUser_policies() {
 		return user_policies;
@@ -140,17 +166,24 @@ public class User implements UserDetails{
 		return user_claims;
 	}
 
+
 	public void setUser_claims(List<Claim> user_claims) {
 		this.user_claims = user_claims;
 	}
+
 
 	public Set<Role> getUser_roles() {
 		return user_roles;
 	}
 
+
 	public void setUser_roles(Set<Role> user_roles) {
 		this.user_roles = user_roles;
 	}
+
+
+
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -168,7 +201,7 @@ public class User implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.userEmail;
+		return this.user_Email;
 	}
 
 	@Override

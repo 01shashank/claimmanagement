@@ -5,13 +5,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.hexaware.claimmanagement.Entity.Insured;
+import com.hexaware.claimmanagement.Entity.Hospitalization;
 
 @Repository
-public interface insuredRepo extends JpaRepository<Insured,Integer> {
+public interface HospitalRepository extends JpaRepository<Hospitalization,Integer> {
 	
 	@Modifying
-	@Query(value="delete from Insured where insured_id = ?1", nativeQuery=true)
+	@Query(value="delete from Hospitalization where hospital_id = ?1", nativeQuery=true)
 	void deleteById (int id);
 
 }

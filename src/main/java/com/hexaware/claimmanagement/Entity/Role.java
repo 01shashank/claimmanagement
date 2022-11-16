@@ -16,15 +16,13 @@ public class Role {
 	@Column(name="name")
 	private String role_name;
 	
-	public Role(int role_Id, String role_name) {
+	public Role( String role_name) {
 		super();
-		this.role_Id = role_Id;
 		this.role_name = role_name;
 	}
 
 	public Role() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getRole_Id() {

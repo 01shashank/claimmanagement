@@ -11,19 +11,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.claimmanagement.Entity.User;
-import com.hexaware.claimmanagement.Repository.userRepository;
+import com.hexaware.claimmanagement.Repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Autowired
-	private userRepository userRepo;
+	private UserRepository userRepo;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 
-		//Optional<User> userop =this.userRepo.findByEmail(username);
+		
 		User user = this.userRepo.findByuserEmail(username);
 		return user;
 	}
