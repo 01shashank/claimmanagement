@@ -16,5 +16,7 @@ public interface PolicyRepository extends JpaRepository<Policy,Integer>{
 	
 	@Query("select p from Policy p where p.policyName=?1")
 	public Policy findByPolicyName(String policyName);
+	
+
 
 }

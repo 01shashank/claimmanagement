@@ -14,36 +14,32 @@ import org.springframework.stereotype.Component;
 import com.hexaware.claimmanagement.Entity.Claim;
 import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
+import com.hexaware.claimmanagement.ExceptionHandling.ResourceNotFoundException;
 import com.hexaware.claimmanagement.Repository.ClaimRepository;
 import com.hexaware.claimmanagement.Repository.UserRepository;
 
 @Component
 public class UserServiceImpl implements UserService{
 	
-	@Autowired
-	private UserRepository userRepo;
+	@Autowired UserRepository userRepo;
+	@Autowired PasswordEncoder passwordEncoder;
 	
-	@Autowired
-	private ClaimRepository claimRepo;
-	
-	
-
 	@Override
-	public User saveUser(User user1) {
+	public User saveUser(User user1){
 		
-//		String pass= user1.getUser_password();
-//		String pass2= passwordEncoder.encode(pass);
-//		System.out.println(this.passwordEncoder.encode(pass2));
-//		user1.setUser_password(pass2);
+		String pass= user1.getUser_password();
+		String pass2= passwordEncoder.encode(pass);
+		System.out.println(this.passwordEncoder.encode(pass2));
+		user1.setUser_password(pass2);
+		
 		
 		Set<Role> userRoles = new HashSet<Role>();
-		userRoles.add(userRepo.getRole());
+		userRoles.add(userRepo.getUserRole());
 		user1.setUser_roles(userRoles);
-		
-		//List<Claim> list1= user1.getUser_claims();
-		
 		return userRepo.save(user1);
-	}
+	}		
+		
+
 
 	@Override
 	public List<User> getAllUsers() {
@@ -54,35 +50,29 @@ public class UserServiceImpl implements UserService{
 		else {
 			return list1;
 		}
+		
 	}
 
 
 	@Override
-	public User deleteUser(int user_Id) {
+	public User deleteUser(int user_Id){
+		
 		try {
 			Optional<User> user1 = userRepo.findById(user_Id);
-			if(user1==null){
-				throw new Exception();
+			User user3 = user1.get();
+			if(user3==null){
+				throw new ResourceNotFoundException("No user present");
 			}
 			else {
-				User user2 = user1.get();
 				
-//				List<Claim> claim1 =user2.getUser_claims();
-//				claim1.forEach(claim->{
-//					claimRepo.delete(claim);
-//				});
-//				
-				
-				userRepo.delete(user2);
-				return user2;
-			}
-		}
-		
+				userRepo.delete(user3);
+				return user3;
+			}}
 		catch(Exception e) {
 			e.printStackTrace();
-			return null;
-			
 		}
+		return null;
+		
 	}
 
 	@Override
@@ -92,12 +82,31 @@ public class UserServiceImpl implements UserService{
 		return user2;
 	}
 
+
+
 	@Override
-	public User getUserbyEmail(String userEmail) {
-		// TODO Auto-generated method stub
-		User user1=userRepo.findByuserEmail(userEmail);
-		return user1;
-		
+	public List<Claim> getUserClaims(int user_Id) {
+		return userRepo.getUserClaims(user_Id);
 	}
 
+
+
+	@Override
+	public User updateUser(int user_Id,User user) {
+		
+		Optional<User> user1 = userRepo.findById(user_Id);
+		User user2 = user1.get();
+		user2.setUser_Email(user.getUser_Email());
+		
+		String pass= user.getUser_password();
+		String pass2= passwordEncoder.encode(pass);
+		System.out.println(this.passwordEncoder.encode(pass2));
+		user2.setUser_password(pass2);
+		
+		user2.setUser_first_name(user.getUser_first_name());
+		user2.setUser_last_name(user.getUser_last_name());
+		
+		return userRepo.save(user2);
+		
+	}
 }

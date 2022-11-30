@@ -21,7 +21,7 @@ public class ClaimmanagementApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		System.out.println(this.passwordEncoder.encode("yogesh@123"));
+		System.out.println(this.passwordEncoder.encode("shashank@123"));
 		
 	}
 

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.claimmanagement.Entity.Claim;
-import com.hexaware.claimmanagement.Entity.Claim_status;
 import com.hexaware.claimmanagement.Entity.Document;
 import com.hexaware.claimmanagement.Entity.Hospitalization;
 import com.hexaware.claimmanagement.Entity.Policy;
@@ -24,63 +23,39 @@ import com.hexaware.claimmanagement.Repository.UserRepository;
 @Component
 public class ClaimServiceImpl implements ClaimService{
 	
-	@Autowired
-	private ClaimRepository claimRepo;
+	@Autowired private ClaimRepository claimRepo;
 	
-	@Autowired
-	private UserRepository userRepo;
+	@Autowired private UserRepository userRepo;
 	
-	@Autowired
-	private HospitalRepository hospRepo;
+	@Autowired private PolicyRepository polRepo;
 	
-	@Autowired
-	private PolicyRepository polRepo;
+	@Autowired private HospitalRepository hospRepo;
+	
 	
 	@Autowired
 	private DocumentRepository docRepo;
 
 	@Override
-	public Claim saveClaim(Claim claim,String userEmail) {
+	public Claim saveClaim(Claim claim,int userId) {
 		
-//		User user1 = userRepo.findByuserEmail(userEmail);
-//		Claim claim1 = claim;
-//		claim1.setUser(user1);
-//		//Policy policy1 = claim1.getPolicy();
+		Optional<User> user = userRepo.findById(userId);
+		User user1= user.get();
+		claim.setUser(user1);
+		Policy policy1 = claim.getPolicy();
+		policy1.setUser(user1);
+		polRepo.save(policy1);
 //		int policy_id = policy1.getPolicy_Id();
 //		Optional<Policy> policy3 = polRepo.findById(policy_id);
 //		Policy policy4 = policy3.get();
 //		//claim1.setPolicy(policy4);
 //		System.out.println(policy1.getPolicyName());
-//		claim1.setClaim_status(Claim_status.UNDER_REVIEW);
+		claim.setClaim_status("UNDER_REVIEW");
 		
 		
-		//claimRepo.save(claim1)
-		return null;
+		
+		return claimRepo.save(claim);
 	}
 	
-	@Override
-	public List<Document> saveDocument(int Claim_id, MultipartFile[] files) {
-		List<Document> docList= new ArrayList();
-		Claim claim= claimRepo.getById(Claim_id);
-		try {
-			for(MultipartFile file:files) {
-			
-				String filename = file.getOriginalFilename();
-				Document doc = new Document(filename,file.getContentType(),file.getBytes());
-				docRepo.save(doc);
-				docList.add(doc);
-			
-			}
-			System.out.println(docList);
-			claim.setDoc(docList);
-			return docList;
-			
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	
 
@@ -114,84 +89,62 @@ public class ClaimServiceImpl implements ClaimService{
 
 	@Override
 	public Claim updateClaim(int claim_id, Claim claim) {
-		try {
-			Optional<Claim> claim1 = claimRepo.findById(claim_id);
-			if(claim1==null) {
-				throw new Exception();
-
-			}
-			else {
-			Claim claim2 = claim1.get();
-			claim2.setHospitalization(claim.getHospitalization());
-			
-			claimRepo.save(claim2);
-			return claim2;
-			}
-
-			}
-		catch(Exception e) {
-			e.printStackTrace();
-			return null;
-			
-		}
+		Optional<Claim> claim1 = claimRepo.findById(claim_id);
+		Claim claim2 = claim1.get();
+		Policy policy1 = claim2.getPolicy();
+		Hospitalization hospitalization1 = claim2.getHospitalization();
+		
+		Policy policy = claim.getPolicy();
+		Hospitalization hospitalization = claim.getHospitalization();
+		
+		policy1.setPolicyName(policy.getPolicyName());
+		policy1.setPolicy_type(policy.getPolicy_type());
+		policy1.setPolicy_premium(policy.getPolicy_premium());
+		policy1.setPolicy_coverage(policy.getPolicy_coverage());
+		policy1.setPolicy_start_date(policy.getPolicy_start_date());
+		policy1.setPolicy_end_date(policy.getPolicy_end_date());
+		
+		
+		hospitalization1.setHospital_doctor(hospitalization.getHospital_doctor());
+		hospitalization1.setHospital_medical_expenses(hospitalization.getHospital_medical_expenses());
+		hospitalization1.setHospital_non_medical_expenses(hospitalization.getHospital_non_medical_expenses());
+		hospitalization1.setHospital_reason(hospitalization.getHospital_reason());
+		
+		hospRepo.save(hospitalization1);
+		polRepo.save(policy1);
+		claimRepo.save(claim2);
+		return claim2;
 	}
 	
+	
+	
 	@Override
-	public Claim updateStatus(String status,int claim_id) {
+	public Claim updateStatus(String status,int claim_id,String claim_rejection_reason) {
 		
-		
-		try {
 			Optional<Claim> claim1 = claimRepo.findById(claim_id);
-			if(claim1==null) {
-				throw new Exception();
-
-			}
-			else {
 			Claim claim2 = claim1.get(); 
-			Claim_status c_status = Claim_status.valueOf(status);
-			claim2.setClaim_status(c_status);
+			
+			claim2.setClaim_status(status);
+			claim2.setClaim_rejection_reason(claim_rejection_reason);
 			
 			claimRepo.save(claim2);
 			return claim2;
-			}
 
-			}
-		catch(Exception e) {
-			e.printStackTrace();
-			return null;
-			
-		}
-	}
-
-	@Override
-	public Claim getClaimById(int claim_id) {
-		Optional<Claim> policy = claimRepo.findById(claim_id);
-		return policy.get();
 	}
 	
-	@Override
-	public List<Claim> getClaimByStatus(String claim_status) {
 
-		Claim_status c_status = Claim_status.valueOf(claim_status);
-		List<Claim> claims = claimRepo.getByClaimStatus(c_status);
-		return claims;
-	}
+
+
+
+
 
 	@Override
-	public List<Document> getFiles(int claim_id) {
-		// TODO Auto-generated method stub
-		List<Document> docList = claimRepo.getFileById(claim_id);
-		return docList;
+	public Claim getClaimByClaimId(int claim_id) {
+		Optional<Claim> claim = claimRepo.findById(claim_id);
+		Claim claim1 = claim.get();
+		//System.out.println(claim1.g);
+		return claim1;
 	}
-
-	@Override
-	public Document getFileById(int doc_id) {
-		Document doc= docRepo.getFileById(doc_id);
-		return doc;
-	}
-	
-	
-
 	
 
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.hexaware.claimmanagement.Entity.Claim;
 import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
 
@@ -14,11 +15,14 @@ public interface UserService {
 	
 	public List<User> getAllUsers();
 	
-	public User deleteUser(int user_Id);
-	
 	public User getUserbyId(int user_Id);
 	
-	public User getUserbyEmail(String userEmail);
+	public User deleteUser(int user_Id) ;
+	
+	public List<Claim> getUserClaims(int user_Id);
+	
+	public User updateUser(int user_Id,User user);
+	
 
 
 }
