@@ -3,6 +3,7 @@ package com.hexaware.claimmanagement.Controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +28,20 @@ import com.hexaware.claimmanagement.Service.UserService;
 
 @RestController
 @CrossOrigin(origins="http://localhost:3000")
-@RequestMapping("/api")
+@RequestMapping("/claimmanagement")
+@Transactional
 public class UserController {
 	
 	@Autowired UserService userServ;
 	@Autowired UserRepository userRepo;
 	
-	@GetMapping("/string")
-	public String getString() {
-		return "String";
-	}
 	
 	@PostMapping("/user")
 	public ResponseEntity<User> saveUser(@Valid @RequestBody User user1){
 		return new ResponseEntity<>(userServ.saveUser(user1),HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("/allusers")
 	public ResponseEntity<List<User>> getAllUsers(){
 		List<User> list1 = userServ.getAllUsers();
 		if(list1==null) {
@@ -60,7 +58,7 @@ public class UserController {
 	}
 	
 	
-	@DeleteMapping("/user/{user_Id}")
+	@DeleteMapping("/user/delete/{user_Id}")
 	public ResponseEntity<User> deleteUser(@PathVariable int user_Id) {
 		
 			User user1 = userServ.deleteUser(user_Id);

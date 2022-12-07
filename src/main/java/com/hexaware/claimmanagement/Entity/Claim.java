@@ -33,35 +33,111 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+
 @JsonIdentityInfo(
 		   generator = ObjectIdGenerators.PropertyGenerator.class,
 		   property = "claim_id")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Transactional
 public class Claim {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int claim_id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "user_Id")
+	@JsonIgnore
 	private User user;
 	
 	private String claim_status;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Hospitalization hospitalization;
 	
-	@OneToMany( cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+	@OneToMany( cascade = CascadeType.ALL)
 	private List<Document> doc;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Policy policy;
 	
 	private String claim_rejection_reason;
+	
+	
+
+	public Claim() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Claim(int claim_id, User user, String claim_status, Hospitalization hospitalization, List<Document> doc,
+			Policy policy, String claim_rejection_reason) {
+		super();
+		this.claim_id = claim_id;
+		this.user = user;
+		this.claim_status = claim_status;
+		this.hospitalization = hospitalization;
+		this.doc = doc;
+		this.policy = policy;
+		this.claim_rejection_reason = claim_rejection_reason;
+	}
+
+	public int getClaim_id() {
+		return claim_id;
+	}
+
+	public void setClaim_id(int claim_id) {
+		this.claim_id = claim_id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getClaim_status() {
+		return claim_status;
+	}
+
+	public void setClaim_status(String claim_status) {
+		this.claim_status = claim_status;
+	}
+
+	public Hospitalization getHospitalization() {
+		return hospitalization;
+	}
+
+	public void setHospitalization(Hospitalization hospitalization) {
+		this.hospitalization = hospitalization;
+	}
+
+	public List<Document> getDoc() {
+		return doc;
+	}
+
+	public void setDoc(List<Document> doc) {
+		this.doc = doc;
+	}
+
+	public Policy getPolicy() {
+		return policy;
+	}
+
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
+	}
+
+	public String getClaim_rejection_reason() {
+		return claim_rejection_reason;
+	}
+
+	public void setClaim_rejection_reason(String claim_rejection_reason) {
+		this.claim_rejection_reason = claim_rejection_reason;
+	}
+	
 	
 	
 }

@@ -7,20 +7,24 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.claimmanagement.Entity.Claim;
 import com.hexaware.claimmanagement.Entity.Document;
 import com.hexaware.claimmanagement.Entity.Hospitalization;
+import com.hexaware.claimmanagement.Entity.Nominee;
 import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
 import com.hexaware.claimmanagement.Repository.ClaimRepository;
 import com.hexaware.claimmanagement.Repository.DocumentRepository;
 import com.hexaware.claimmanagement.Repository.HospitalRepository;
+import com.hexaware.claimmanagement.Repository.NomineeRepository;
 import com.hexaware.claimmanagement.Repository.PolicyRepository;
 import com.hexaware.claimmanagement.Repository.UserRepository;
 
 @Component
+@Transactional
 public class ClaimServiceImpl implements ClaimService{
 	
 	@Autowired private ClaimRepository claimRepo;
@@ -30,6 +34,8 @@ public class ClaimServiceImpl implements ClaimService{
 	@Autowired private PolicyRepository polRepo;
 	
 	@Autowired private HospitalRepository hospRepo;
+	
+	@Autowired private NomineeRepository nomRepo;
 	
 	
 	@Autowired
@@ -43,14 +49,13 @@ public class ClaimServiceImpl implements ClaimService{
 		claim.setUser(user1);
 		Policy policy1 = claim.getPolicy();
 		policy1.setUser(user1);
+		List<Nominee> nominee=  claim.getPolicy().getNominee();
+		nominee.forEach(nom->{
+			nom.setPolicy(policy1);
+			nomRepo.save(nom);
+		});		
 		polRepo.save(policy1);
-//		int policy_id = policy1.getPolicy_Id();
-//		Optional<Policy> policy3 = polRepo.findById(policy_id);
-//		Policy policy4 = policy3.get();
-//		//claim1.setPolicy(policy4);
-//		System.out.println(policy1.getPolicyName());
 		claim.setClaim_status("UNDER_REVIEW");
-		
 		
 		
 		return claimRepo.save(claim);

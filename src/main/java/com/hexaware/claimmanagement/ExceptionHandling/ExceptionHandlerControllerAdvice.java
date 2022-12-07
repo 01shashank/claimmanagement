@@ -1,5 +1,6 @@
 package com.hexaware.claimmanagement.ExceptionHandling;
 
+import java.io.NotSerializableException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ExceptionHandlerControllerAdvice {
+	
+	@ExceptionHandler(NotSerializableException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public @ResponseBody ExceptionResponse NotSerializableException(Exception exception,final HttpServletRequest request) {
+		ExceptionResponse exp = new ExceptionResponse();
+		exp.setErrormessage(exception.getMessage());
+		exp.setRequestedURI(request.getRequestURI());
+		
+		return exp;
+	}
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -39,17 +50,19 @@ public class ExceptionHandlerControllerAdvice {
 		
 		return new ResponseEntity<Map<String, String>>(response,HttpStatus.BAD_REQUEST);
 	}
-//	
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//	public @ResponseBody ExceptionResponse handleResourceNotFound(Exception exception,final HttpServletRequest request) {
-//		ExceptionResponse exp = new ExceptionResponse();
-//		exp.setErrormessage(exception.getMessage());
-//		exp.setRequestedURI(request.getRequestURI());
-//		
-//		return exp;
-//	}
-//	
-//	
+	
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public @ResponseBody ExceptionResponse handleResourceNotFound(Exception exception,final HttpServletRequest request) {
+		ExceptionResponse exp = new ExceptionResponse();
+		exp.setErrormessage(exception.getMessage());
+		exp.setRequestedURI(request.getRequestURI());
+		
+		return exp;
+	}
+	
+	
+	
+	
 
 }

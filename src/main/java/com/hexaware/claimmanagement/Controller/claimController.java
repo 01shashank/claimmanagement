@@ -3,6 +3,7 @@ package com.hexaware.claimmanagement.Controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.parser.MediaType;
@@ -28,16 +29,17 @@ import com.hexaware.claimmanagement.Entity.Document;
 import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
 import com.hexaware.claimmanagement.Repository.ClaimRepository;
+import com.hexaware.claimmanagement.Repository.NomineeRepository;
 import com.hexaware.claimmanagement.Service.ClaimService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/api")
+@RequestMapping("/claimmanagement")
+@Transactional
 public class ClaimController {
 	
 	@Autowired private ClaimService claimServ;
 	@Autowired private ClaimRepository claimRepo;
-	
 
 	
 	@PostMapping("/claim/{user_Id}")
@@ -46,7 +48,7 @@ public class ClaimController {
 	}
 
 	
-	@GetMapping("/claims")
+	@GetMapping("/allclaims")
 	public List<Claim> getAllClaims(){
 		return claimServ.getAllClaims();
 	}
@@ -57,15 +59,13 @@ public class ClaimController {
 	}
 	
 	
-	
-	
 	@GetMapping("/claim/{claim_id}")
 	public Claim getClaimById(@PathVariable int claim_id) {
 		return claimServ.getClaimByClaimId(claim_id);
 	}
 	
 	
-	@DeleteMapping("/claim/{claim_id}")
+	@DeleteMapping("/claim/delete/{claim_id}")
 	public ResponseEntity<Claim> deleteClaim(@PathVariable int claim_id) {
 		Claim claim1 = claimServ.deleteClaim(claim_id);
 		if(claim1==null) {
@@ -78,7 +78,7 @@ public class ClaimController {
 	
 
 	
-	@PutMapping("/claim/{claim_id}")
+	@PutMapping("/claim/update/{claim_id}")
 	public Claim updateClaim(@PathVariable int claim_id, @RequestBody Claim claim) {
 		Claim claim1 = claimServ.updateClaim(claim_id, claim);
 		return claim1;
@@ -86,8 +86,8 @@ public class ClaimController {
 	}
 	
 	
-	@PutMapping("/claimstatus/{claim_id}")
-	public Claim updateStatus(@RequestBody String claim_rejection_reason ,@RequestBody String status, @PathVariable int claim_id) {
+	@PutMapping("/claim/changestatus/{claim_id}")
+	public Claim updateStatus(@RequestBody String claim_rejection_reason,@RequestBody String status, @PathVariable int claim_id) {
 		Claim claim1 = claimServ.updateStatus(status,claim_id,claim_rejection_reason);
 			return claim1;
 	}

@@ -2,6 +2,8 @@ package com.hexaware.claimmanagement.Service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.hexaware.claimmanagement.Entity.Claim;
@@ -9,6 +11,7 @@ import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
 
 @Service
+@Transactional
 public interface UserService {
 	
 	public User saveUser(User user);

@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hexaware.claimmanagement.Entity.Document;
 
 @Service
+@Transactional
 public interface DocumentService {
 	
 	public List<Document> saveDocument(int Claim_id,MultipartFile[] files);
