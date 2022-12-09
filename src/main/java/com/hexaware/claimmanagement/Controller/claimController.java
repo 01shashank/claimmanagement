@@ -26,11 +26,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.claimmanagement.Entity.Claim;
 import com.hexaware.claimmanagement.Entity.Document;
+import com.hexaware.claimmanagement.Entity.Nominee;
 import com.hexaware.claimmanagement.Entity.Policy;
 import com.hexaware.claimmanagement.Entity.User;
 import com.hexaware.claimmanagement.Repository.ClaimRepository;
 import com.hexaware.claimmanagement.Repository.NomineeRepository;
 import com.hexaware.claimmanagement.Service.ClaimService;
+import com.hexaware.claimmanagement.ExceptionHandling.ResourceNotFoundException;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -53,43 +55,59 @@ public class ClaimController {
 		return claimServ.getAllClaims();
 	}
 	
+	
+	@GetMapping("/claim/{claim_id}")
+	public Claim getClaimById(@PathVariable int claim_id) {
+		Claim claim= claimServ.getClaimByClaimId(claim_id);
+		return claim;
+	}
+	
+	
+	@DeleteMapping("/claim/delete/{claim_id}")
+	public Claim deleteClaim(@PathVariable int claim_id) {
+		Claim claim= claimServ.deleteClaim(claim_id);
+		return claim;
+		
+	}
+	
+	@PutMapping("/claim/update/{claim_id}")
+	public Claim updateClaim(@PathVariable int claim_id, @RequestBody Claim claim1){
+		Claim claim= claimServ.updateClaim(claim_id,claim1);
+		return claim;
+		
+	}
+	
+	@PutMapping("/claim/changestatus/{claim_id}")
+	public Claim updateStatus(@RequestBody List<String> status_and_reason ,@PathVariable int claim_id){
+		Claim claim1 = claimServ.updateStatus(status_and_reason,claim_id);
+		return claim1;
+	}
+	
+	
+	@DeleteMapping("/claim/removenominee/{nominee_id}")
+	public Nominee removeNominee(@PathVariable int nominee_id){
+		Nominee nominee= claimServ.removeNominee(nominee_id);
+		return nominee;
+	}
+	
 	@GetMapping("/totalclaims")
 	public Long getClaimCount(){
 		return claimRepo.count();
 	}
 	
-	
-	@GetMapping("/claim/{claim_id}")
-	public Claim getClaimById(@PathVariable int claim_id) {
-		return claimServ.getClaimByClaimId(claim_id);
+	@GetMapping("/claim/pendingclaims")
+	public int pendingClaims() {
+		return claimRepo.pendingClaims();
 	}
 	
-	
-	@DeleteMapping("/claim/delete/{claim_id}")
-	public ResponseEntity<Claim> deleteClaim(@PathVariable int claim_id) {
-		Claim claim1 = claimServ.deleteClaim(claim_id);
-		if(claim1==null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		else {
-			return ResponseEntity.of(Optional.of(claim1));
-		}
+	@GetMapping("/claim/approvedclaims")
+	public int acceptedClaims() {
+		return claimRepo.accptedClaims();
 	}
 	
-
-	
-	@PutMapping("/claim/update/{claim_id}")
-	public Claim updateClaim(@PathVariable int claim_id, @RequestBody Claim claim) {
-		Claim claim1 = claimServ.updateClaim(claim_id, claim);
-		return claim1;
-		
-	}
-	
-	
-	@PutMapping("/claim/changestatus/{claim_id}")
-	public Claim updateStatus(@RequestBody String claim_rejection_reason,@RequestBody String status, @PathVariable int claim_id) {
-		Claim claim1 = claimServ.updateStatus(status,claim_id,claim_rejection_reason);
-			return claim1;
+	@GetMapping("/claim/rejectedclaims")
+	public int rejectedClaims() {
+		return claimRepo.rejectedClaims();
 	}
 	
 	

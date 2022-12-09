@@ -1,6 +1,6 @@
 package com.hexaware.claimmanagement.ExceptionHandling;
 
-public class ResourceNotFoundException extends Exception{
+public class ResourceNotFoundException extends RuntimeException{
 
 	private static final long serialVersionUID = -907945484961161074L;
 

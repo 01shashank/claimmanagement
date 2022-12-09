@@ -1,5 +1,6 @@
 package com.hexaware.claimmanagement.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,7 +15,7 @@ import com.hexaware.claimmanagement.Entity.User;
 @Transactional
 public interface UserService {
 	
-	public User saveUser(User user);
+	public User saveUser(User user) ;
 	
 	public List<User> getAllUsers();
 	

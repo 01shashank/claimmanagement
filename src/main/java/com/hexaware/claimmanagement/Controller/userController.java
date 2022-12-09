@@ -59,10 +59,10 @@ public class UserController {
 	
 	
 	@DeleteMapping("/user/delete/{user_Id}")
-	public ResponseEntity<User> deleteUser(@PathVariable int user_Id) {
+	public User deleteUser(@PathVariable int user_Id) {
 		
 			User user1 = userServ.deleteUser(user_Id);
-			return new ResponseEntity<>(user1,HttpStatus.OK);
+			return user1;
 	}
 	
 	@GetMapping("/totalusers")
@@ -75,7 +75,7 @@ public class UserController {
 		return userServ.getUserClaims(user_Id);
 	}
 	
-	@PutMapping("/user/{user_Id}")
+	@PutMapping("/user/update/{user_Id}")
 	public User updateUser(@PathVariable int user_Id,@RequestBody User user){
 		return userServ.updateUser(user_Id,user);
 	}
