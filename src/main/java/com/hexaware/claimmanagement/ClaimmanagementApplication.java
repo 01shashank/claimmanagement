@@ -10,20 +10,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication
 public class ClaimmanagementApplication implements CommandLineRunner{
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	@Autowired PasswordEncoder passwordEncoder;
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		SpringApplication.run(ClaimmanagementApplication.class, args);
 	}
-	
+
+
 	@Override
 	public void run(String... args) throws Exception {
 		
-		System.out.println(this.passwordEncoder.encode("jignesh@123"));
+		System.out.println(passwordEncoder.encode("yogesh@123"));
 		
 	}
-
+	
 
 }

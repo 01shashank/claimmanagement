@@ -17,6 +17,8 @@ public interface UserService {
 	
 	public User saveUser(User user) ;
 	
+	public User saveAdmin(User user) ;
+	
 	public List<User> getAllUsers();
 	
 	public User getUserbyId(int user_Id);

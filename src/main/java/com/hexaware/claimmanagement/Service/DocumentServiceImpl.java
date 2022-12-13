@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hexaware.claimmanagement.Entity.Claim;
 import com.hexaware.claimmanagement.Entity.Document;
+import com.hexaware.claimmanagement.ExceptionHandling.ResourceNotFoundException;
 import com.hexaware.claimmanagement.Repository.ClaimRepository;
 import com.hexaware.claimmanagement.Repository.DocumentRepository;
 
@@ -29,8 +30,7 @@ public class DocumentServiceImpl implements DocumentService{
 		System.out.println("above try");
 		List<Document> docList= new ArrayList();
 		
-		Optional<Claim> claimop= claimRepo.findById(Claim_id);
-		Claim claim = claimop.get();
+		Claim claim= claimRepo.findById(Claim_id).orElseThrow(()->new ResourceNotFoundException("No claim present"));
 		
 		try {
 			
@@ -65,7 +65,7 @@ public class DocumentServiceImpl implements DocumentService{
 	@Override
 	public Document getFileById(int doc_id) {
 		
-		Document doc= docRepo.getFileById(doc_id);
+		Document doc= docRepo.getFileById(doc_id).orElseThrow(()->new ResourceNotFoundException("Document not available"));
 		return doc;
 	}
 	

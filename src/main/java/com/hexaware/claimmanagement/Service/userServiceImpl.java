@@ -27,23 +27,32 @@ import com.hexaware.claimmanagement.Repository.UserRepository;
 public class UserServiceImpl implements UserService{
 	
 	@Autowired UserRepository userRepo;
+	
 	@Autowired PasswordEncoder passwordEncoder;
 	
 	@Override
 	public User saveUser(User user1){
+		String password = user1.getPassword();
+		user1.setUser_password(passwordEncoder.encode(password));
 		
-		
-		String pass= user1.getUser_password();
-		String pass2= passwordEncoder.encode(pass);
-		System.out.println(this.passwordEncoder.encode(pass2));
-		user1.setUser_password(pass2);
-				
-				
 		Set<Role> userRoles = new HashSet<Role>();
 		userRoles.add(userRepo.getUserRole());
 		user1.setUser_roles(userRoles);
 		return userRepo.save(user1);
-	}		
+	}
+	
+	@Override
+	public User saveAdmin(User user1){
+		String password = user1.getPassword();
+		user1.setUser_password(passwordEncoder.encode(password));
+		
+		Set<Role> userRoles = new HashSet<Role>();
+		userRoles.add(userRepo.getAdminRole());
+		user1.setUser_roles(userRoles);
+		return userRepo.save(user1);
+	}
+	
+	
 		
 
 
@@ -89,11 +98,8 @@ public class UserServiceImpl implements UserService{
 		
 		User user2 = userRepo.findById(user_Id).orElseThrow(()->new ResourceNotFoundException("No user present with that id"));
 		user2.setUser_Email(user.getUser_Email());
-		
-		String pass= user.getUser_password();
-		String pass2= passwordEncoder.encode(pass);
-		System.out.println(this.passwordEncoder.encode(pass2));
-		user2.setUser_password(pass2);
+		String password = user2.getPassword();
+		user2.setUser_password(passwordEncoder.encode(password));
 		
 		user2.setUser_first_name(user.getUser_first_name());
 		user2.setUser_last_name(user.getUser_last_name());

@@ -8,8 +8,10 @@ import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -41,9 +43,9 @@ public class ExceptionHandlerControllerAdvice {
 		return exp;
 	}
 	
-	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+	@ExceptionHandler(DataIntegrityViolationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public @ResponseBody ExceptionResponse handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception,final HttpServletRequest request) {
+	public @ResponseBody ExceptionResponse handleDataIntegrityViolationException(DataIntegrityViolationException exception,final HttpServletRequest request) {
 		ExceptionResponse exp= new ExceptionResponse();
 		exp.setErrormessage(exception.getMessage());
 		exp.setRequestedURI(request.getRequestURI());
@@ -74,15 +76,15 @@ public class ExceptionHandlerControllerAdvice {
 //	}
 	
 	
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//	public @ResponseBody ExceptionResponse handleResourceNotFound(Exception exception,final HttpServletRequest request) {
-//		ExceptionResponse exp = new ExceptionResponse();
-//		exp.setErrormessage(exception.getMessage());
-//		exp.setRequestedURI(request.getRequestURI());
-//		
-//		return exp;
-//	}
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public @ResponseBody ExceptionResponse handleResourceNotFound(Exception exception,final HttpServletRequest request) {
+		ExceptionResponse exp = new ExceptionResponse();
+		exp.setErrormessage(exception.getMessage());
+		exp.setRequestedURI(request.getRequestURI());
+		
+		return exp;
+	}
 	
 	
 	

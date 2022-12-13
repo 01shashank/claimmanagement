@@ -12,5 +12,5 @@ import com.hexaware.claimmanagement.Entity.Document;
 public interface DocumentRepository extends JpaRepository<Document,Integer>{
 	
 	@Query("select d from Document d where d.doc_id=?1")
-	public Document getFileById(int doc_id);
+	public Optional<Document> getFileById(int doc_id);
 }

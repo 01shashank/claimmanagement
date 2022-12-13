@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.claimmanagement.Entity.User;
+import com.hexaware.claimmanagement.ExceptionHandling.ResourceNotFoundException;
 import com.hexaware.claimmanagement.Repository.UserRepository;
 
 @Service
@@ -21,11 +22,11 @@ public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-
-		
-		User user = this.userRepo.findByuserEmail(username);
-		return user;
-	}
-
+		User user = userRepo.findByuserEmail(username);
+		if(user == null) {
+			//System.out.println("Use is not present. Checked in CustomUserDetailsService");
+			throw new UsernameNotFoundException("Use is not present. Checked in CustomUserDetailsService");
+		}
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),user.getAuthorities());
+}
 }

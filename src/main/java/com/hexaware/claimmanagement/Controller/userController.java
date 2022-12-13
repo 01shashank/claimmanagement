@@ -41,6 +41,11 @@ public class UserController {
 		return new ResponseEntity<>(userServ.saveUser(user1),HttpStatus.CREATED);
 	}
 	
+	@PostMapping("/admin")
+	public ResponseEntity<User> saveAdmin(@Valid @RequestBody User user1){
+		return new ResponseEntity<>(userServ.saveAdmin(user1),HttpStatus.CREATED);
+	}
+	
 	@GetMapping("/allusers")
 	public ResponseEntity<List<User>> getAllUsers(){
 		List<User> list1 = userServ.getAllUsers();
@@ -78,6 +83,11 @@ public class UserController {
 	@PutMapping("/user/update/{user_Id}")
 	public User updateUser(@PathVariable int user_Id,@RequestBody User user){
 		return userServ.updateUser(user_Id,user);
+	}
+	
+	@GetMapping("/useremail/{user_Email}")
+	public User getByUserEmail(@PathVariable String user_Email) {
+		return userRepo.findByuserEmail(user_Email);
 	}
 	
 	
