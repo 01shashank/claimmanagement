@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,17 +38,17 @@ public class UserController {
 	@Autowired UserRepository userRepo;
 	
 	
-	@PostMapping("/user")
+	@PostMapping("/adduser")
 	public ResponseEntity<User> saveUser(@Valid @RequestBody User user1){
 		return new ResponseEntity<>(userServ.saveUser(user1),HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/admin")
+	@PostMapping("/admin/addadmin")
 	public ResponseEntity<User> saveAdmin(@Valid @RequestBody User user1){
 		return new ResponseEntity<>(userServ.saveAdmin(user1),HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/allusers")
+	@GetMapping("/admin/allusers")
 	public ResponseEntity<List<User>> getAllUsers(){
 		List<User> list1 = userServ.getAllUsers();
 		if(list1==null) {
@@ -61,31 +63,32 @@ public class UserController {
 	public User getUserbyId(@PathVariable int user_Id) {
 		return userServ.getUserbyId(user_Id);
 	}
+
+	@PutMapping("/admin/updateuser/{user_Id}")
+	public User updateUser(@PathVariable int user_Id,@RequestBody User user){
+		return userServ.updateUser(user_Id,user);
+	}
 	
 	
-	@DeleteMapping("/user/delete/{user_Id}")
+	@DeleteMapping("/admin/deleteuser/{user_Id}")
 	public User deleteUser(@PathVariable int user_Id) {
 		
 			User user1 = userServ.deleteUser(user_Id);
 			return user1;
 	}
 	
-	@GetMapping("/totalusers")
+	@GetMapping("/admin/totalusers")
 	public Long getUserCount(){
 		return userRepo.count();
 	}
 	
-	@GetMapping("/userclaims/{user_Id}")
+	@GetMapping("/user/userclaims/{user_Id}")
 	public List<Claim> getUserClaims(@PathVariable int user_Id){
 		return userServ.getUserClaims(user_Id);
 	}
 	
-	@PutMapping("/user/update/{user_Id}")
-	public User updateUser(@PathVariable int user_Id,@RequestBody User user){
-		return userServ.updateUser(user_Id,user);
-	}
 	
-	@GetMapping("/useremail/{user_Email}")
+	@GetMapping("/user/useremail/{user_Email}")
 	public User getByUserEmail(@PathVariable String user_Email) {
 		return userRepo.findByuserEmail(user_Email);
 	}

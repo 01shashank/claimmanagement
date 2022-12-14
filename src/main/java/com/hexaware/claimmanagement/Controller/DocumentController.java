@@ -47,7 +47,7 @@ public class DocumentController {
 				
 	}
 	
-	@GetMapping("/documentdetails/{claim_id}")
+	@GetMapping("/admin/documentdetails/{claim_id}")
 	public List<Document> getFiles(@PathVariable int claim_id){
 		List<Document> docList= docServ.getFiles(claim_id);
 		return docList;

@@ -24,7 +24,7 @@ import com.hexaware.claimmanagement.Security.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(securedEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
@@ -40,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 		.csrf().disable()
 		.authorizeHttpRequests()
-		.antMatchers("/claimmanagement/**").permitAll()
-		.antMatchers(HttpMethod.OPTIONS).permitAll()
+		.antMatchers("/claimmanagement/login").permitAll()
+		.antMatchers("/claimmanagement/admin/**").hasAnyAuthority("ROLE_ADMIN")
 		.anyRequest().authenticated()
 		.and()
 		.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)

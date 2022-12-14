@@ -19,10 +19,10 @@ public interface UserRepository extends JpaRepository<User,Integer>{
 	@Query("select u from User u where u.user_Email=?1")
 	public User findByuserEmail(String userEmail);
 	
-	@Query("select r from Role r where r.role_name='USER'")
+	@Query("select r from Role r where r.role_name='ROLE_USER'")
 	public Role getUserRole();
 	
-	@Query("select r from Role r where r.role_name='ADMIN'")
+	@Query("select r from Role r where r.role_name='ROLE_ADMIN'")
 	public Role getAdminRole();
 	
 	@Query(value="select u.user_claims from User u where u.user_Id=?1")

@@ -18,12 +18,12 @@ public class RoleController {
 	
 	@Autowired private RoleService roleServ;
 	
-	@PostMapping("role")
+	@PostMapping("/admin/addrole")
 	public Role saveRole(@RequestBody Role role) {
 		return roleServ.saveRole(role);
 	}
 	
-	@GetMapping("allroles")
+	@GetMapping("/admin/allroles")
 	public List<Role> getAllRoles(){
 		return roleServ.getAllRoles();
 	}

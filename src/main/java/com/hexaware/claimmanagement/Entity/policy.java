@@ -42,10 +42,8 @@ public class Policy {
 	@NotNull(message="Policy name can't be empty")
 	private String policyName;
 
-	@NotNull(message="Policy coverage can't be empty")
 	private int policy_coverage;
 	
-	@NotNull(message="Policy premium can't be empty")
 	private int policy_premium;
 	
 	@NotNull(message="Policy Type can't be empty")

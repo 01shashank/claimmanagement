@@ -50,7 +50,7 @@ public class ClaimController {
 	}
 
 	
-	@GetMapping("/allclaims")
+	@GetMapping("/admin/allclaims")
 	public List<Claim> getAllClaims(){
 		return claimServ.getAllClaims();
 	}
@@ -63,21 +63,21 @@ public class ClaimController {
 	}
 	
 	
-	@DeleteMapping("/claim/delete/{claim_id}")
+	@PutMapping("/claim/update/{claim_id}")
+	public Claim updateClaim(@PathVariable int claim_id, @RequestBody Claim claim1){
+		Claim claim= claimServ.updateClaim(claim_id,claim1);
+		return claim;
+	}
+	
+
+	@DeleteMapping("/admin/deleteclaim/{claim_id}")
 	public Claim deleteClaim(@PathVariable int claim_id) {
 		Claim claim= claimServ.deleteClaim(claim_id);
 		return claim;
 		
 	}
 	
-	@PutMapping("/claim/update/{claim_id}")
-	public Claim updateClaim(@PathVariable int claim_id, @RequestBody Claim claim1){
-		Claim claim= claimServ.updateClaim(claim_id,claim1);
-		return claim;
-		
-	}
-	
-	@PutMapping("/claim/changestatus/{claim_id}")
+	@PutMapping("/admin/changeclaimstatus/{claim_id}")
 	public Claim updateStatus(@RequestBody List<String> status_and_reason ,@PathVariable int claim_id){
 		Claim claim1 = claimServ.updateStatus(status_and_reason,claim_id);
 		return claim1;
@@ -90,22 +90,22 @@ public class ClaimController {
 		return nominee;
 	}
 	
-	@GetMapping("/totalclaims")
+	@GetMapping("/admin/totalclaims")
 	public Long getClaimCount(){
 		return claimRepo.count();
 	}
 	
-	@GetMapping("/claim/pendingclaims")
+	@GetMapping("/admin/pendingclaims")
 	public int pendingClaims() {
 		return claimRepo.pendingClaims();
 	}
 	
-	@GetMapping("/claim/approvedclaims")
+	@GetMapping("/admin/approvedclaims")
 	public int acceptedClaims() {
 		return claimRepo.accptedClaims();
 	}
 	
-	@GetMapping("/claim/rejectedclaims")
+	@GetMapping("/admin/rejectedclaims")
 	public int rejectedClaims() {
 		return claimRepo.rejectedClaims();
 	}
