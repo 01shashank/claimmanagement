@@ -35,7 +35,7 @@ import com.hexaware.claimmanagement.Service.ClaimService;
 import com.hexaware.claimmanagement.ExceptionHandling.ResourceNotFoundException;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3002")
 @RequestMapping("/claimmanagement")
 @Transactional
 public class ClaimController {

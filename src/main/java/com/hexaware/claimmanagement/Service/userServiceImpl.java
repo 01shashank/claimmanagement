@@ -1,6 +1,7 @@
 package com.hexaware.claimmanagement.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import com.hexaware.claimmanagement.Entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -106,5 +108,11 @@ public class UserServiceImpl implements UserService{
 		
 		return userRepo.save(user2);
 		
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getUserAuthorities(String username) {
+		User user = userRepo.findByuserEmail(username);
+		return user.getAuthorities();
 	}
 }

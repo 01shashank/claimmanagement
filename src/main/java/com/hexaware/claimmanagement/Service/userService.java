@@ -1,10 +1,13 @@
 package com.hexaware.claimmanagement.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.claimmanagement.Entity.Claim;
@@ -29,6 +32,6 @@ public interface UserService {
 	
 	public User updateUser(int user_Id,User user);
 	
-
+	public Collection<? extends GrantedAuthority> getUserAuthorities(String username);
 
 }

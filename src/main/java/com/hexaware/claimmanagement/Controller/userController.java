@@ -1,5 +1,6 @@
 package com.hexaware.claimmanagement.Controller;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +31,7 @@ import com.hexaware.claimmanagement.Repository.UserRepository;
 import com.hexaware.claimmanagement.Service.UserService;
 
 @RestController
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins="http://localhost:3002")
 @RequestMapping("/claimmanagement")
 @Transactional
 public class UserController {
@@ -91,6 +93,22 @@ public class UserController {
 	@GetMapping("/user/useremail/{user_Email}")
 	public User getByUserEmail(@PathVariable String user_Email) {
 		return userRepo.findByuserEmail(user_Email);
+	}
+	
+	@GetMapping("/user/authorities/{username}")
+	public Collection<? extends GrantedAuthority> getUserAuthorities(@PathVariable String username){
+		return userServ.getUserAuthorities(username);
+	}
+	
+	@GetMapping("/getuserid/{username}")
+	public int getUserId(@PathVariable String username) {
+		User user = userRepo.findByuserEmail(username);
+		if(user==null) {
+			throw new ResourceNotFoundException("No user found");
+		}
+		else {
+			return user.getUser_Id();
+		}
 	}
 	
 	

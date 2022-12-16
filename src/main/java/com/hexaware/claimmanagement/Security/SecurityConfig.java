@@ -38,10 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
-		.csrf().disable()
+		.csrf().disable().cors().and()
 		.authorizeHttpRequests()
-		.antMatchers("/claimmanagement/login").permitAll()
+		.antMatchers("/claimmanagement/login","claimmanagement/adduser").permitAll()
 		.antMatchers("/claimmanagement/admin/**").hasAnyAuthority("ROLE_ADMIN")
+		.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)

@@ -21,7 +21,7 @@ import com.hexaware.claimmanagement.Entity.Document;
 import com.hexaware.claimmanagement.Service.DocumentService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3002")
 @RequestMapping("/claimmanagement")
 @Transactional
 public class DocumentController {
@@ -47,7 +47,7 @@ public class DocumentController {
 				
 	}
 	
-	@GetMapping("/admin/documentdetails/{claim_id}")
+	@GetMapping("/documentdetails/{claim_id}")
 	public List<Document> getFiles(@PathVariable int claim_id){
 		List<Document> docList= docServ.getFiles(claim_id);
 		return docList;

@@ -108,6 +108,7 @@ public class User implements UserDetails{
 		this.user_claims = user_claims;
 		this.user_roles = user_roles;
 	}
+	
 
 	public int getUser_Id() {
 		return user_Id;
