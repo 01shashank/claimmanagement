@@ -96,21 +96,6 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	public User updateUser(int user_Id,User user) {
-		
-		User user2 = userRepo.findById(user_Id).orElseThrow(()->new ResourceNotFoundException("No user present with that id"));
-		user2.setUser_Email(user.getUser_Email());
-		String password = user2.getPassword();
-		user2.setUser_password(passwordEncoder.encode(password));
-		
-		user2.setUser_first_name(user.getUser_first_name());
-		user2.setUser_last_name(user.getUser_last_name());
-		
-		return userRepo.save(user2);
-		
-	}
-
-	@Override
 	public Collection<? extends GrantedAuthority> getUserAuthorities(String username) {
 		User user = userRepo.findByuserEmail(username);
 		return user.getAuthorities();

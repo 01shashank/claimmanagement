@@ -31,8 +31,6 @@ public interface ClaimService {
 	
 	public Claim getClaimByClaimId(int claim_id);
 	
-	public Claim updateClaim(int claim_id, Claim claim);
-	
 	public Claim deleteClaim(int claim_Id);
 	
 	public Claim updateStatus(List<String> status_and_reason, int  claim_id);

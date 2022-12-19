@@ -30,8 +30,6 @@ public interface UserService {
 	
 	public List<Claim> getUserClaims(int user_Id);
 	
-	public User updateUser(int user_Id,User user);
-	
 	public Collection<? extends GrantedAuthority> getUserAuthorities(String username);
 
 }

@@ -15,7 +15,7 @@ import com.hexaware.claimmanagement.Service.RoleService;
 
 @RestController
 @RequestMapping("/claimmanagement")
-@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3002","http://localhost:3004"})
+@CrossOrigin(origins = "http://localhost:3000")
 public class RoleController {
 	
 	@Autowired private RoleService roleServ;

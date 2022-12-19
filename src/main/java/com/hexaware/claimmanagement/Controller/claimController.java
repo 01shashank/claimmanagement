@@ -35,7 +35,7 @@ import com.hexaware.claimmanagement.Service.ClaimService;
 import com.hexaware.claimmanagement.ExceptionHandling.ResourceNotFoundException;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3002","http://localhost:3004"})
+@CrossOrigin(origins ="http://localhost:3000")
 @RequestMapping("/claimmanagement")
 @Transactional
 public class ClaimController {
@@ -75,13 +75,6 @@ public class ClaimController {
 	@GetMapping("/claim/{claim_id}")
 	public Claim getClaimById(@PathVariable int claim_id) {
 		Claim claim= claimServ.getClaimByClaimId(claim_id);
-		return claim;
-	}
-	
-	
-	@PutMapping("/claim/update/{claim_id}")
-	public Claim updateClaim(@PathVariable int claim_id, @RequestBody Claim claim1){
-		Claim claim= claimServ.updateClaim(claim_id,claim1);
 		return claim;
 	}
 	

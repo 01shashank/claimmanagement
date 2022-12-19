@@ -31,7 +31,7 @@ import com.hexaware.claimmanagement.Repository.UserRepository;
 import com.hexaware.claimmanagement.Service.UserService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3002","http://localhost:3004"})
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/claimmanagement")
 @Transactional
 public class UserController {
@@ -66,11 +66,6 @@ public class UserController {
 		return userServ.getUserbyId(user_Id);
 	}
 
-	@PutMapping("/admin/updateuser/{user_Id}")
-	public User updateUser(@PathVariable int user_Id,@RequestBody User user){
-		return userServ.updateUser(user_Id,user);
-	}
-	
 	
 	@DeleteMapping("/admin/deleteuser/{user_Id}")
 	public User deleteUser(@PathVariable int user_Id) {
