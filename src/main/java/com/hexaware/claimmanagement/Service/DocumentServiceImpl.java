@@ -58,7 +58,10 @@ public class DocumentServiceImpl implements DocumentService{
 	@Override
 	public List<Document> getFiles(int claim_id) {
 		
-		List<Document> docList = claimRepo.getFileById(claim_id);
+		//List<Document> docList = claimRepo.getFileById(claim_id);
+		Claim claim= claimRepo.findById(claim_id).orElseThrow(()->new ResourceNotFoundException("No Claim Found"));
+		List<Document> docList= claim.getDoc();
+		System.out.println(docList);
 		return docList;
 	}
 

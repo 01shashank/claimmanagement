@@ -21,7 +21,7 @@ import com.hexaware.claimmanagement.Entity.Document;
 import com.hexaware.claimmanagement.Service.DocumentService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3002")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3002","http://localhost:3004"})
 @RequestMapping("/claimmanagement")
 @Transactional
 public class DocumentController {

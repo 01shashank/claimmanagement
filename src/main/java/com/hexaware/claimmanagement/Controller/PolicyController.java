@@ -17,7 +17,7 @@ import com.hexaware.claimmanagement.Service.PolicyService;
 
 @RestController
 @RequestMapping("/claimmanagement")
-@CrossOrigin(origins = "http://localhost:3002")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3002","http://localhost:3004"})
 public class PolicyController {
 	
 	@Autowired PolicyService polServ;

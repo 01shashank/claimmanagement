@@ -35,7 +35,7 @@ import com.hexaware.claimmanagement.Service.ClaimService;
 import com.hexaware.claimmanagement.ExceptionHandling.ResourceNotFoundException;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3002")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:3002","http://localhost:3004"})
 @RequestMapping("/claimmanagement")
 @Transactional
 public class ClaimController {
@@ -45,14 +45,30 @@ public class ClaimController {
 
 	
 	@PostMapping("/claim/{user_Id}")
-	public Claim saveClaim(@Valid @RequestBody Claim claim, @PathVariable int user_Id) {
+	public ResponseEntity<?> saveClaim(@Valid @RequestBody Claim claim, @PathVariable int user_Id) {
 		return claimServ.saveClaim(claim,user_Id);
+		
 	}
 
 	
 	@GetMapping("/admin/allclaims")
 	public List<Claim> getAllClaims(){
 		return claimServ.getAllClaims();
+	}
+	
+	@GetMapping("/admin/pendingclaims")
+	public List<Claim> getPendingClaims(){
+		return claimRepo.getPendingClaims();
+	}
+	
+	@GetMapping("/admin/approvedclaims")
+	public List<Claim> getApprovedClaims() {
+		return claimRepo.getApprovedClaims();
+	}
+	
+	@GetMapping("/admin/rejectedclaims")
+	public List<Claim> getRejectedClaims() {
+		return claimRepo.getRejectedClaims();
 	}
 	
 	
@@ -90,25 +106,29 @@ public class ClaimController {
 		return nominee;
 	}
 	
-	@GetMapping("/admin/totalclaims")
-	public Long getClaimCount(){
-		return claimRepo.count();
+	
+	
+	@GetMapping("/admin/totalclaimscount")
+	public int getAllClaimsCount(){
+		return claimServ.getAllClaims().size();
 	}
 	
-	@GetMapping("/admin/pendingclaims")
-	public int pendingClaims() {
-		return claimRepo.pendingClaims();
+	@GetMapping("/admin/pendingclaimscount")
+	public int getpendingClaimsCount() {
+		return claimRepo.getPendingClaims().size();
 	}
 	
-	@GetMapping("/admin/approvedclaims")
-	public int acceptedClaims() {
-		return claimRepo.accptedClaims();
+	@GetMapping("/admin/approvedclaimscount")
+	public int getacceptedClaimsCount() {
+		return claimRepo.getApprovedClaims().size();
 	}
 	
-	@GetMapping("/admin/rejectedclaims")
-	public int rejectedClaims() {
-		return claimRepo.rejectedClaims();
+	@GetMapping("/admin/rejectedclaimscount")
+	public int getrejectedClaimsCount() {
+		return claimRepo.getRejectedClaims().size();
 	}
+	
+	
 	
 	
 }

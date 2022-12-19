@@ -4,6 +4,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,13 +19,17 @@ import com.hexaware.claimmanagement.Entity.Policy;
 @Transactional
 public interface ClaimService {
 	
-	public Claim saveClaim(Claim claim,int userId);
+	public ResponseEntity<?> saveClaim(Claim claim,int userId);
 	
 	public List<Claim> getAllClaims();
 	
+	public List<Claim> getPendingClaims();
+	
+	public List<Claim> getApprovedClaims();
+	
+	public List<Claim> getRejectedClaims();
 	
 	public Claim getClaimByClaimId(int claim_id);
-	
 	
 	public Claim updateClaim(int claim_id, Claim claim);
 	
@@ -32,6 +37,8 @@ public interface ClaimService {
 	
 	public Claim updateStatus(List<String> status_and_reason, int  claim_id);
 	
-	public Nominee removeNominee(int nominee_id);	
+	public Nominee removeNominee(int nominee_id);
+	
+	
 
 }

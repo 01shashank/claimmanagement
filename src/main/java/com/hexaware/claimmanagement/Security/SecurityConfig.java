@@ -40,7 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 		.csrf().disable().cors().and()
 		.authorizeHttpRequests()
-		.antMatchers("/claimmanagement/login","claimmanagement/adduser").permitAll()
+		.antMatchers("/claimmanagement/login").permitAll()
+		.antMatchers("/claimmanagement/adduser").permitAll()
 		.antMatchers("/claimmanagement/admin/**").hasAnyAuthority("ROLE_ADMIN")
 		.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 		.anyRequest().authenticated()
