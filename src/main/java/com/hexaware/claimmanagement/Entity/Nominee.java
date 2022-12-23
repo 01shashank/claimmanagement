@@ -53,7 +53,6 @@ public class Nominee {
 
 	public Nominee() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getNominee_id() {

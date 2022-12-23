@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 		User user = userRepo.findByuserEmail(username);
 		if(user == null) {
 			//System.out.println("Use is not present. Checked in CustomUserDetailsService");
-			throw new UsernameNotFoundException("Use is not present. Checked in CustomUserDetailsService");
+			throw new UsernameNotFoundException("User is not present. Checked in CustomUserDetailsService");
 		}
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),user.getAuthorities());
 }

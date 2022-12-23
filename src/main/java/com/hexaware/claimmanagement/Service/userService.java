@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,11 @@ public interface UserService {
 	
 	public List<User> getAllUsers();
 	
-	public User getUserbyId(int user_Id);
+	public ResponseEntity<?> getUserbyId(int user_Id);
 	
-	public User deleteUser(int user_Id) ;
+	public ResponseEntity<?> deleteUser(int user_Id) ;
 	
-	public List<Claim> getUserClaims(int user_Id);
+	public ResponseEntity<?> getUserClaims(int user_Id);
 	
 	public Collection<? extends GrantedAuthority> getUserAuthorities(String username);
 

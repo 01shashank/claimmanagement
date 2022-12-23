@@ -64,16 +64,7 @@ public class ExceptionHandlerControllerAdvice {
 		
 		return new ResponseEntity<Map<String, String>>(response,HttpStatus.BAD_REQUEST);
 	}
-//	
-//	@ExceptionHandler(NoSuchElementException.class)
-//	@ResponseStatus(HttpStatus.NOT_FOUND)
-//	public @ResponseBody ExceptionResponse handleNoSuchElementException(Exception exception,final HttpServletRequest request) {
-//		ExceptionResponse exp = new ExceptionResponse();
-//		exp.setErrormessage(exception.getMessage());
-//		exp.setRequestedURI(request.getRequestURI());
-//		
-//		return exp;
-//	}
+
 	
 	
 	@ExceptionHandler(Exception.class)

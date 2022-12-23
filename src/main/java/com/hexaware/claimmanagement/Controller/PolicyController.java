@@ -3,6 +3,7 @@ package com.hexaware.claimmanagement.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import com.hexaware.claimmanagement.Service.PolicyService;
 
 @RestController
 @RequestMapping("/claimmanagement")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5000")
 public class PolicyController {
 	
 	@Autowired PolicyService polServ;
@@ -33,7 +34,8 @@ public class PolicyController {
 	}
 	
 	@DeleteMapping("/deletepolicy/{policy_id}")
-	public Policy deletePolicy(@PathVariable int policy_id) {
+	public ResponseEntity<?> deletePolicy(@PathVariable int policy_id) {
+		
 		return polServ.deletePolicy(policy_id);
 	}
 	

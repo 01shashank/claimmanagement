@@ -40,8 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 		.csrf().disable().cors().and()
 		.authorizeHttpRequests()
-		.antMatchers("/claimmanagement/login").permitAll()
-		.antMatchers("/claimmanagement/adduser").permitAll()
+		.antMatchers("/claimmanagement/login","/claimmanagement/addrole","/claimmanagement/adduser").permitAll()
 		.antMatchers("/claimmanagement/admin/**").hasAnyAuthority("ROLE_ADMIN")
 		.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 		.anyRequest().authenticated()
@@ -61,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public static PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	

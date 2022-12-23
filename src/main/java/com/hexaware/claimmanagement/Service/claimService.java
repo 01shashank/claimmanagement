@@ -29,13 +29,12 @@ public interface ClaimService {
 	
 	public List<Claim> getRejectedClaims();
 	
-	public Claim getClaimByClaimId(int claim_id);
+	public  ResponseEntity<?> getClaimByClaimId(int claim_id);
 	
-	public Claim deleteClaim(int claim_Id);
+	public ResponseEntity<?> deleteClaim(int claim_Id);
 	
-	public Claim updateStatus(List<String> status_and_reason, int  claim_id);
+	public ResponseEntity<?> updateStatus(List<String> status_and_reason, int  claim_id);
 	
-	public Nominee removeNominee(int nominee_id);
 	
 	
 

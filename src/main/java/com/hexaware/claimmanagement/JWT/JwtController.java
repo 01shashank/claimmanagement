@@ -18,7 +18,7 @@ import com.hexaware.claimmanagement.Security.*;
 
 @RestController
 @RequestMapping("/claimmanagement")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5000")
 public class JwtController {
 	
 	@Autowired  AuthenticationManager authManager;

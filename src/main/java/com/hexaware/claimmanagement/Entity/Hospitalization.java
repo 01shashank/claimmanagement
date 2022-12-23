@@ -50,7 +50,6 @@ public class Hospitalization {
 
 	public Hospitalization() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Hospitalization( Claim claim,

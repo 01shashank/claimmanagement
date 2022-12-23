@@ -31,7 +31,7 @@ import com.hexaware.claimmanagement.Repository.UserRepository;
 import com.hexaware.claimmanagement.Service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5000")
 @RequestMapping("/claimmanagement")
 @Transactional
 public class UserController {
@@ -62,16 +62,15 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/{user_Id}")
-	public User getUserbyId(@PathVariable int user_Id) {
+	public ResponseEntity getUserbyId(@PathVariable int user_Id) {
 		return userServ.getUserbyId(user_Id);
 	}
 
 	
 	@DeleteMapping("/admin/deleteuser/{user_Id}")
-	public User deleteUser(@PathVariable int user_Id) {
+	public ResponseEntity<?> deleteUser(@PathVariable int user_Id) {
 		
-			User user1 = userServ.deleteUser(user_Id);
-			return user1;
+			return userServ.deleteUser(user_Id);
 	}
 	
 	@GetMapping("/admin/totalusers")
@@ -80,7 +79,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/userclaims/{user_Id}")
-	public List<Claim> getUserClaims(@PathVariable int user_Id){
+	public ResponseEntity<?> getUserClaims(@PathVariable int user_Id){
 		return userServ.getUserClaims(user_Id);
 	}
 	

@@ -10,22 +10,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.hexaware.claimmanagement.Entity.Role;
 import com.hexaware.claimmanagement.Service.RoleService;
 
 @RestController
 @RequestMapping("/claimmanagement")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5000")
 public class RoleController {
 	
 	@Autowired private RoleService roleServ;
 	
-	@PostMapping("/admin/addrole")
+	@PostMapping("/addrole")
 	public Role saveRole(@RequestBody Role role) {
 		return roleServ.saveRole(role);
 	}
 	
-	@GetMapping("/admin/allroles")
+	@GetMapping("/allroles")
 	public List<Role> getAllRoles(){
 		return roleServ.getAllRoles();
 	}

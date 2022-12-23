@@ -35,13 +35,5 @@ public interface ClaimRepository extends JpaRepository<Claim,Integer>{
 	@Query(value="select c from Claim c where c.claim_status='REJECTED'")
 	public List<Claim> getRejectedClaims();
 	
-//	@Query(value="select count(*) from Claim c where c.claim_status='UNDER_REVIEW'")
-//	public int getPendingClaimsCount();
-//	
-//	@Query(value="select count(*) from Claim c where c.claim_status='APPROVED'")
-//	public int getApprovedClaimsCount();
-//	
-//	@Query(value="select count(*) from Claim c where c.claim_status='REJECTED'")
-//	public int getRejectedClaimsCount();
-//	
+
 }

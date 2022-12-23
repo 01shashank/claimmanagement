@@ -76,7 +76,6 @@ public class Policy {
 
 	public Policy() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Policy(@NotNull(message = "Policy name can't be empty") String policyName,

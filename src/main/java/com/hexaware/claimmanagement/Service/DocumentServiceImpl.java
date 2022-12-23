@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +28,7 @@ public class DocumentServiceImpl implements DocumentService{
 	private ClaimRepository claimRepo;
 	
 	@Override
-	public List<Document> saveDocument(int Claim_id, MultipartFile[] files) {
-		System.out.println("above try");
+	public ResponseEntity<?> saveDocument(int Claim_id, MultipartFile[] files) {
 		List<Document> docList= new ArrayList();
 		
 		Claim claim= claimRepo.findById(Claim_id).orElseThrow(()->new ResourceNotFoundException("No claim present"));
@@ -46,19 +47,19 @@ public class DocumentServiceImpl implements DocumentService{
 			System.out.println(docList);
 			claim.setDoc(docList);
 			claimRepo.save(claim);
-			return docList;
+			return new ResponseEntity<>(docList,HttpStatus.OK);
 			
 		}
 		catch(Exception e) {
+			
 			e.printStackTrace();
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
-		return null;
 	}
 	
 	@Override
 	public List<Document> getFiles(int claim_id) {
 		
-		//List<Document> docList = claimRepo.getFileById(claim_id);
 		Claim claim= claimRepo.findById(claim_id).orElseThrow(()->new ResourceNotFoundException("No Claim Found"));
 		List<Document> docList= claim.getDoc();
 		System.out.println(docList);

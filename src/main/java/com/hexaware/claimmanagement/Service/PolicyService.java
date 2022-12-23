@@ -2,6 +2,7 @@ package com.hexaware.claimmanagement.Service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.hexaware.claimmanagement.Entity.Policy;
@@ -15,7 +16,7 @@ public interface PolicyService {
 
 	public Policy getPolicyById(int policy_id);
 	
-	public Policy deletePolicy(int policy_id);
+	public ResponseEntity<?> deletePolicy(int policy_id);
 	
 
 }

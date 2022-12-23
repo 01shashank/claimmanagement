@@ -35,7 +35,7 @@ import com.hexaware.claimmanagement.Service.ClaimService;
 import com.hexaware.claimmanagement.ExceptionHandling.ResourceNotFoundException;
 
 @RestController
-@CrossOrigin(origins ="http://localhost:3000")
+@CrossOrigin(origins ="http://localhost:5000")
 @RequestMapping("/claimmanagement")
 @Transactional
 public class ClaimController {
@@ -73,32 +73,22 @@ public class ClaimController {
 	
 	
 	@GetMapping("/claim/{claim_id}")
-	public Claim getClaimById(@PathVariable int claim_id) {
-		Claim claim= claimServ.getClaimByClaimId(claim_id);
-		return claim;
+	public ResponseEntity<?> getClaimById(@PathVariable int claim_id) {
+		return claimServ.getClaimByClaimId(claim_id);
+		 
 	}
 	
 
 	@DeleteMapping("/admin/deleteclaim/{claim_id}")
-	public Claim deleteClaim(@PathVariable int claim_id) {
-		Claim claim= claimServ.deleteClaim(claim_id);
-		return claim;
+	public ResponseEntity<?> deleteClaim(@PathVariable int claim_id) {
+		return claimServ.deleteClaim(claim_id);
 		
 	}
 	
 	@PutMapping("/admin/changeclaimstatus/{claim_id}")
-	public Claim updateStatus(@RequestBody List<String> status_and_reason ,@PathVariable int claim_id){
-		Claim claim1 = claimServ.updateStatus(status_and_reason,claim_id);
-		return claim1;
+	public ResponseEntity<?> updateStatus(@RequestBody List<String> status_and_reason ,@PathVariable int claim_id){
+		return claimServ.updateStatus(status_and_reason,claim_id);
 	}
-	
-	
-	@DeleteMapping("/claim/removenominee/{nominee_id}")
-	public Nominee removeNominee(@PathVariable int nominee_id){
-		Nominee nominee= claimServ.removeNominee(nominee_id);
-		return nominee;
-	}
-	
 	
 	
 	@GetMapping("/admin/totalclaimscount")

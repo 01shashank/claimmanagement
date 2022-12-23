@@ -21,7 +21,7 @@ import com.hexaware.claimmanagement.Entity.Document;
 import com.hexaware.claimmanagement.Service.DocumentService;
 
 @RestController
-@CrossOrigin(origins ="http://localhost:3000")
+@CrossOrigin(origins ="http://localhost:5000")
 @RequestMapping("/claimmanagement")
 @Transactional
 public class DocumentController {
@@ -31,7 +31,7 @@ public class DocumentController {
 	
 	
 	@PostMapping("/document/{claim_id}")
-	public List<Document> saveDocument( @PathVariable int claim_id,@RequestParam("file") MultipartFile[] files) {
+	public ResponseEntity<?> saveDocument( @PathVariable int claim_id,@RequestParam("file") MultipartFile[] files) {
 		return docServ.saveDocument(claim_id,files);
 	}
 	

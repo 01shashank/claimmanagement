@@ -45,7 +45,6 @@ public class Document {
 
 	public Document() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Document(int doc_id, Claim claim, String docname, String doctype, byte[] data) {

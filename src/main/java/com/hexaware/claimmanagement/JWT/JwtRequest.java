@@ -14,7 +14,6 @@ public class JwtRequest {
 
 	public JwtRequest() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getUsername() {

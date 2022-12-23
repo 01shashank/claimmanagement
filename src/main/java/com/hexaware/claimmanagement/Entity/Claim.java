@@ -67,7 +67,6 @@ public class Claim {
 
 	public Claim() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Claim(int claim_id, User user, String claim_status, Hospitalization hospitalization, List<Document> doc,

@@ -1,6 +1,5 @@
 package com.hexaware.claimmanagement.Entity;
 
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -74,13 +73,10 @@ public class User implements UserDetails{
 	@OneToMany(mappedBy="user", cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
 	private List<Policy> user_policies;
 	
-	//FetchType is lazy as we need not to load the data at time of entering a user.
-	//FetchType needs to be set to Eager when we need to load the data at time of entering a user.
-	//JsonManagedReference is a forward reference used for serialization and JsonBackReference is omitted during serialization.
+	
 	@OneToMany(mappedBy="user",cascade = CascadeType.REMOVE)
 	private List<Claim> user_claims;
 	
-	//ManyToMany Relationship needs to be written with JoinTable annotation
 	@ManyToMany(cascade = CascadeType.PERSIST,fetch=FetchType.EAGER)
 	@JoinTable(
 			  name = "user_roles", 
@@ -91,15 +87,16 @@ public class User implements UserDetails{
 
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public User(@Email(message = "Email Address is not valid!") String user_Email,
+	public User(int user_Id,
+			@Email(message = "Email Address is not valid!") String user_Email,
 			@NotNull(message = "Password can't be null") String user_password,
 			@NotNull(message = "First Name can't be null") String user_first_name,
 			@NotNull(message = "Last Name can't be null") String user_last_name, List<Policy> user_policies,
 			List<Claim> user_claims, Set<Role> user_roles) {
 		super();
+		this.user_Id= user_Id;
 		this.user_Email = user_Email;
 		this.user_password = user_password;
 		this.user_first_name = user_first_name;

@@ -3,8 +3,8 @@ package com.hexaware.claimmanagement.JWT;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Value;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,9 @@ import java.util.function.Function;
 @Component
 public class JwtUtils {
 	
-	private String SECRET_KEY ="claim#2357" ;
+	@Value("${jwt.secret}")
+	private String SECRET_KEY ;
+	
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -32,6 +34,7 @@ public class JwtUtils {
         return claimsResolver.apply(claims);
     }
     private Claims extractAllClaims(String token) {
+    	
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 

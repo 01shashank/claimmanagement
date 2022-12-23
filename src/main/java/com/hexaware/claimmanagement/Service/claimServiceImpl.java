@@ -119,41 +119,51 @@ public class ClaimServiceImpl implements ClaimService{
 	}
 
 	@Override
-	public Claim deleteClaim(int claim_id) {
-		Claim claim2 = claimRepo.findById(claim_id).orElseThrow(()-> new ResourceNotFoundException("Claim is not present"));
-		claimRepo.delete(claim2);
-		return claim2;
+	public ResponseEntity<?> deleteClaim(int claim_id) {
+		Optional<Claim> claimOp = claimRepo.findById(claim_id);
+		Claim claim = claimOp.get();
+		if(claim==null) {
+			throw new ResourceNotFoundException("No Policy found");
 		}
+		else {
+			claimRepo.delete(claim);
+			return new ResponseEntity<>(claim,HttpStatus.OK);
+		}
+	}
 	
 	
 	@Override
-	public Claim updateStatus(List<String> status_and_reason,int claim_id) {
+	public ResponseEntity<?> updateStatus(List<String> status_and_reason,int claim_id) {
 		
-			Claim claim2 = claimRepo.findById(claim_id).orElseThrow(()-> new ResourceNotFoundException("Claim is not present")); 
-			claim2.setClaim_status(status_and_reason.get(0));
-			claim2.setClaim_rejection_reason(status_and_reason.get(1));
-				
-			claimRepo.save(claim2);
-			return claim2;
+			Optional<Claim> claimOp = claimRepo.findById(claim_id);
+			Claim claim2 = claimOp.get();
+			if(claim2==null) {
+				throw new ResourceNotFoundException("Claim is not present"); 
+			}
+			else {
+				claim2.setClaim_status(status_and_reason.get(0));
+				claim2.setClaim_rejection_reason(status_and_reason.get(1));
+					
+				claimRepo.save(claim2);
+				return new ResponseEntity(claim2,HttpStatus.OK);
+			}
 	}
 	
 
 
 	@Override
-	public Claim getClaimByClaimId(int claim_id) {
-		Claim claim = claimRepo.findById(claim_id).orElseThrow(()-> new ResourceNotFoundException("Claim is not present"));
-		return claim;
+	public ResponseEntity<?> getClaimByClaimId(int claim_id) {
+		Optional<Claim> claimOp = claimRepo.findById(claim_id);
+		Claim claim = claimOp.get();
+		if(claim==null) {
+			throw new ResourceNotFoundException("Claim is not present");
+		}
+		else {
+			return new ResponseEntity<>(claim,HttpStatus.OK);
+		}
 	}
 
 
-
-
-	@Override
-	public Nominee removeNominee(int nominee_id) {
-		
-		Nominee nominee= nomRepo.findById(nominee_id).orElseThrow(()-> new ResourceNotFoundException("Nominee is not present"));
-		return nominee;
-	}
 
 }
 

@@ -42,19 +42,6 @@ public class UserServiceImpl implements UserService{
 		user1.setUser_roles(userRoles);
 		return userRepo.save(user1);
 	}
-	
-	@Override
-	public User saveAdmin(User user1){
-		String password = user1.getPassword();
-		user1.setUser_password(passwordEncoder.encode(password));
-		
-		Set<Role> userRoles = new HashSet<Role>();
-		userRoles.add(userRepo.getAdminRole());
-		user1.setUser_roles(userRoles);
-		return userRepo.save(user1);
-	}
-	
-	
 		
 
 
@@ -73,24 +60,44 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override
-	public User deleteUser(int user_Id){
-		User user1 = userRepo.findById(user_Id).orElseThrow(()->new ResourceNotFoundException("No user present with that id"));
-		userRepo.delete(user1);
-		return user1;
+	public ResponseEntity<?> deleteUser(int user_Id){
+		Optional<User> userOp = userRepo.findById(user_Id);
+		User user = userOp.get();
+		if(user==null) {
+			throw new ResourceNotFoundException("No user present with that id");
+		}
+		else {
+			userRepo.delete(user);
+			return new ResponseEntity<>(user,HttpStatus.OK);
+		}
+		
 		
 	}
 
 	@Override
-	public User getUserbyId(int user_Id) {
-		User user1=userRepo.findById(user_Id).orElseThrow(()->new ResourceNotFoundException("No user present with that id"));
-		return user1;
+	public ResponseEntity<?> getUserbyId(int user_Id) {
+		Optional<User> userOp = userRepo.findById(user_Id);
+		User user = userOp.get();
+		if(user==null) {
+			throw new ResourceNotFoundException("No user present with that id");
+		}
+		else {
+			return new ResponseEntity<>(user,HttpStatus.OK);
+		}
+		
 	}
 
 
 
 	@Override
-	public List<Claim> getUserClaims(int user_Id) {
-		return userRepo.getUserClaims(user_Id);
+	public ResponseEntity<?> getUserClaims(int user_Id) {
+		List<Claim> user_claims_list =  userRepo.getUserClaims(user_Id);
+		if(user_claims_list==null) {
+			return new ResponseEntity<>("No claims found",HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<>(user_claims_list,HttpStatus.OK);
+		}
 	}
 
 
@@ -99,5 +106,16 @@ public class UserServiceImpl implements UserService{
 	public Collection<? extends GrantedAuthority> getUserAuthorities(String username) {
 		User user = userRepo.findByuserEmail(username);
 		return user.getAuthorities();
+	}
+	
+	@Override
+	public User saveAdmin(User user1){
+		String password = user1.getPassword();
+		user1.setUser_password(passwordEncoder.encode(password));
+		
+		Set<Role> userRoles = new HashSet<Role>();
+		userRoles.add(userRepo.getAdminRole());
+		user1.setUser_roles(userRoles);
+		return userRepo.save(user1);
 	}
 }
